@@ -9,8 +9,8 @@ import com.eric.appointment.auth.AuthenticationRequest;
 import com.eric.appointment.auth.AuthenticationResponse;
 import com.eric.appointment.auth.RegisterRequest;
 import com.eric.appointment.dao.UserRepository;
-import com.eric.appointment.entity.user.Role;
-import com.eric.appointment.entity.user.User;
+import com.eric.appointment.model.Role;
+import com.eric.appointment.model.User;
 
 import lombok.RequiredArgsConstructor;
 

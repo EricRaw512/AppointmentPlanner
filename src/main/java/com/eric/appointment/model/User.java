@@ -1,4 +1,4 @@
-package com.eric.appointment.entity.user;
+package com.eric.appointment.model;
 
 import java.util.Collection;
 import java.util.List;
