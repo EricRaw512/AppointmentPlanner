@@ -1,4 +1,4 @@
-package com.eric.appointment.model;
+package com.eric.appointment.security;
 
 import java.util.Collection;
 import java.util.List;
@@ -21,13 +21,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class User implements UserDetails{
-    
+public class UserDetail implements UserDetails{
+
     @Id
     @GeneratedValue
     private long id;
     private String firstName;
     private String lastName;
+    private String userName;
     private String email;
     private String password;
 
@@ -40,8 +41,13 @@ public class User implements UserDetails{
     }
 
     @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
     public String getUsername() {
-        return email;
+        return userName;
     }
 
     @Override
@@ -63,5 +69,5 @@ public class User implements UserDetails{
     public boolean isEnabled() {
         return true;
     }
+    
 }
- 
