@@ -14,8 +14,8 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import lombok.RequiredArgsConstructor;
 
-@EnableWebSecurity
 @Configuration
+@EnableWebSecurity
 @RequiredArgsConstructor
 @EnableMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
@@ -34,5 +34,30 @@ public class WebSecurityConfig {
         authProvider.setUserDetailsService(userDetailService);
         authProvider.setPasswordEncoder(passwordEncoder);
         return authProvider;
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            .csrf(crsf -> crsf.disable())
+            .authorizeHttpRequests(authz -> authz
+                .requestMatchers("/css/**").permitAll()
+                .requestMatchers("/login").permitAll()
+                .anyRequest().authenticated()
+            )
+            .formLogin(formLogin -> formLogin
+                .loginPage("/login")
+                .loginProcessingUrl("perform_login")
+                .defaultSuccessUrl("/home")
+            )
+            .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
+            )
+            .exceptionHandling(exceptionHandling -> exceptionHandling
+                .accessDeniedPage("/access-denied")
+            );    
+                
+        return http.build();
     }
 }

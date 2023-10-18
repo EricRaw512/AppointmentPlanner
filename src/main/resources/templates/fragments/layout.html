@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html th:fragment="layout (content, activeLink, pageTitle)" xmlns:th="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title th:text="${pageTitle}">Page title</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <script src="https://kit.fontawesome.com/56438f342e.js"></script>
+</head>
+<body>
+    <!-- Page Content -->
+    <div class="container">
+        <th:block th:insert="${content}"/>
+        <div class="row align-items-center justify-content-center" style="margin-top: 50px">
+            <p>AppointmentScheduler v<span th:text="${currentVersion}">1.0</span></p>
+    </div>
+</div>
+</body>
+</html>
