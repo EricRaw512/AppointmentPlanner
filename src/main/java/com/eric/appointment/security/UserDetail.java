@@ -7,37 +7,42 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.eric.appointment.entity.user.User;
+
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 public class UserDetail implements UserDetails{
 
-    @Id
-    @GeneratedValue
     private long id;
     private String firstName;
     private String lastName;
     private String userName;
     private String email;
     private String password;
+    private Collection<? extends GrantedAuthority> authorities;
 
-    @Enumerated
-    private Role role;
+    public static UserDetail createUserDetail(User user) {
+        List<GrantedAuthority> authorities  = List.of(new SimpleGrantedAuthority(user.getRole().name()));
+
+        return new UserDetail(
+            user.getId(),
+            user.getFirstName(),
+            user.getLastName(),
+            user.getUserName(),
+            user.getEmail(),
+            user.getPassword(),
+            authorities
+        );
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return authorities;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.eric.appointment.security;
+package com.eric.appointment.entity.user;
 
 public enum Role {
     CUSTOMER,
