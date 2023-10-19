@@ -1,7 +1,9 @@
 package com.eric.appointment.entity.user;
 
 public enum Role {
-    CUSTOMER,
+    ADMIN,
     PROVIDER,
-    ADMIN
+    CUSTOMER,
+    CUSTOMER_CORPORATE,
+    CUSTOMER_RETAIL
 }

@@ -1,6 +1,8 @@
 package com.eric.appointment.model;
 
 import com.eric.appointment.entity.user.User;
+import com.eric.appointment.entity.user.customer.CorporateCustomer;
+import com.eric.appointment.entity.user.customer.RetailCustomer;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;
@@ -86,6 +88,6 @@ public class UserForm {
     public UserForm(CorporateCustomer corporateCustomer) {
         this((User) corporateCustomer);
         this.setCompanyName(corporateCustomer.getCompanyName());
-        this.setVatNumber(corporateCustomer.getVatNumber());
+        this.setNPWP(corporateCustomer.getNPWP());
     }
 }
