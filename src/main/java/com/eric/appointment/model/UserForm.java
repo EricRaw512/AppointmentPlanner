@@ -1,5 +1,8 @@
 package com.eric.appointment.model;
 
+import java.util.List;
+
+import com.eric.appointment.entity.user.Provider;
 import com.eric.appointment.entity.user.User;
 import com.eric.appointment.entity.user.customer.CorporateCustomer;
 import com.eric.appointment.entity.user.customer.RetailCustomer;
@@ -60,14 +63,21 @@ public class UserForm {
     }
 
     /*
-    CorporateCustomer only:
-    */
+     *CorporateCustomer only:
+     */
     @NotBlank(message = "Company cannot be empty")
     private String companyName;
 
     @Pattern(regexp = "[0-9]{15}", message = "Please enter valid NPWP")
     @NotBlank(message = "NPWP cannot be empty")
     private String NPWP;
+
+    /*
+     * Provider only;
+     */
+    // @NotNull
+    // private List<Work> works;
+
 
     public UserForm(User user) {
         this.setId(user.getId());
@@ -80,6 +90,11 @@ public class UserForm {
         this.setPostcode(user.getPostcode());
         this.setMobile(user.getMobile());
     }
+
+    // public UserForm(Provider provider) {
+    //     this((user) provider)
+    //     this.se
+    // }
 
     public UserForm(RetailCustomer retailCustomer) {
         this((User) retailCustomer);
