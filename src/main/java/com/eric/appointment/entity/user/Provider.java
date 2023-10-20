@@ -1,15 +1,68 @@
 package com.eric.appointment.entity.user;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.eric.appointment.entity.Appointment;
+import com.eric.appointment.entity.Work;
+import com.eric.appointment.entity.WorkingPlan;
 import com.eric.appointment.model.UserForm;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@Data
+@EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "providers")
 public class Provider extends User{
+
+    @OneToMany(mappedBy = "provider")
+    private List<Appointment> appointments;
+
+    @ManyToMany
+    @JoinTable(
+        name = "work_providers", 
+        joinColumns = @JoinColumn(name = "id_user"), 
+        inverseJoinColumns = @JoinColumn(name = "id_work")
+    )
+    private List<Work> works;
+
+    @OneToOne(mappedBy = "provider", cascade = CascadeType.ALL)
+    private WorkingPlan workingPlan;
     
-    public Provider(UserForm userForm, String encryptedPassword, Role role) {
-        super(userForm, encryptedPassword, role);
+    public Provider(UserForm userFormDTO, String encryptedPassword, Role role, WorkingPlan workingPlan) {
+        super(userFormDTO, encryptedPassword, role);
+        this.workingPlan = workingPlan;
+        workingPlan.setProvider(this);
+        this.works = userFormDTO.getWorks();
+    }
+
+    public List<Work> getCorporateWorks() {
+        List<Work> corporateWorks = new ArrayList<>();
+        for (Work w : works) {
+            if (w.getTargetCustomer().equals("corporate")) {
+                corporateWorks.add(w);
+            }
+        }
+        return corporateWorks;
+    }
+
+    public List<Work> getRetailWorks() {
+        List<Work> retailWorks = new ArrayList<>();
+        for (Work w : works) {
+            if (w.getTargetCustomer().equals("retail")) {
+                retailWorks.add(w);
+            }
+        }
+        return retailWorks;
     }
 }

@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.eric.appointment.dao.UserRepository;
+import com.eric.appointment.dao.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,6 +18,7 @@ public class UserDetailService implements UserDetailsService{
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return repository.findByUserName(username)
+                            .map(UserDetail::createUserDetail)
                             .orElseThrow(() -> new UsernameNotFoundException("Invalid username or Password"));
     }
     

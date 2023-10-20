@@ -15,5 +15,5 @@ public class BaseEntity {
     @Column(name = "id")
     @GeneratedValue
     @Id
-    private long id;
+    private int id;
 }

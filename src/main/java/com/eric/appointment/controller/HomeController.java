@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.eric.appointment.dao.UserRepository;
 import com.eric.appointment.security.UserDetail;
 
 import lombok.RequiredArgsConstructor;
@@ -14,11 +13,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class HomeController {
 
-    private final UserRepository userRepo;
+    // private final UserService userService;
 
     @GetMapping("/")
     public String home(Model model, @AuthenticationPrincipal UserDetail userDetail) {
-        // model.addAttribute("user", userRepo.findById(userDetail.getId()));
+        // model.addAttribute("user", userDetailService.findById(userDetail.getId()));
         return "home";
     }
 

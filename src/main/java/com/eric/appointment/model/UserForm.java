@@ -2,6 +2,7 @@ package com.eric.appointment.model;
 
 import java.util.List;
 
+import com.eric.appointment.entity.Work;
 import com.eric.appointment.entity.user.Provider;
 import com.eric.appointment.entity.user.User;
 import com.eric.appointment.entity.user.customer.CorporateCustomer;
@@ -75,8 +76,8 @@ public class UserForm {
     /*
      * Provider only;
      */
-    // @NotNull
-    // private List<Work> works;
+    @NotNull
+    private List<Work> works;
 
 
     public UserForm(User user) {
@@ -91,10 +92,10 @@ public class UserForm {
         this.setMobile(user.getMobile());
     }
 
-    // public UserForm(Provider provider) {
-    //     this((user) provider)
-    //     this.se
-    // }
+    public UserForm(Provider provider) {
+        this((User) provider);
+        this.setWorks(provider.getWorks());
+    }
 
     public UserForm(RetailCustomer retailCustomer) {
         this((User) retailCustomer);

@@ -22,7 +22,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @Table(name = "appointments")
 @Entity
-public class Appointment extends BaseEntity{
+public class Appointment extends BaseEntity implements Comparable<Appointment>{
     
     @Column(name = "start")
     @DateTimeFormat(pattern = "dd-MM-yyyy'T'HH:mm")
@@ -47,4 +47,13 @@ public class Appointment extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "id_provider")
     private Provider provider;
+
+    @ManyToOne
+    @JoinColumn(name = "id_work")
+    private Work work;
+
+    @Override
+    public int compareTo(Appointment o) {
+        return this.getStart().compareTo(o.getStart());
+    }
 }
