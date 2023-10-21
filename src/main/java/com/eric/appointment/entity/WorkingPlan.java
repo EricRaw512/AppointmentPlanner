@@ -24,7 +24,7 @@ public class WorkingPlan {
     
     @Id
     @Column(name = "id_provider")
-    private long id;
+    private int id;
 
     @MapsId
     @OneToOne

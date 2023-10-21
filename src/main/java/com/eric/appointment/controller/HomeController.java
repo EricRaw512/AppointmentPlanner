@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.eric.appointment.security.UserDetail;
+import com.eric.appointment.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -13,11 +14,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class HomeController {
 
-    // private final UserService userService;
+    private final UserService userService;
 
     @GetMapping("/")
     public String home(Model model, @AuthenticationPrincipal UserDetail userDetail) {
-        // model.addAttribute("user", userDetailService.findById(userDetail.getId()));
+        model.addAttribute("user", userService.getUserById(userDetail.getId()));
         return "home";
     }
 

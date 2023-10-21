@@ -7,8 +7,7 @@
     <div class="col-lg-6">
         <div class="card">
             <div class="card-header text-center">
-                <th:block th:if="${account_type =='customer_corporate'}">Register new Corporate Customer Account</th:block>
-                <th:block th:if="${account_type =='customer_retail'}">Register new Retail Customer Account</th:block>
+                <th:block th:if="${account_type =='customer'}">Register new Customer Account</th:block>
                 <th:block th:if="${account_type =='provider'}">Register new Provider Account</th:block>
             </div>
             <div class="card-body">
@@ -47,37 +46,9 @@
 
                     </div>
 
-                    <th:block th:if="${account_type =='customer_corporate'}">
-                        <div class="form-group">
-                            <label for="companyName">Company Name</label>
-                            <input type="text" class="form-control" th:classappend="${#fields.hasErrors('companyName') ? 'is-invalid' :''}" th:field="*{companyName}"
-                                   placeholder="company name">
-                            <div th:if="${#fields.hasErrors('companyName')}" class="invalid-feedback">
-                                <p th:errors="*{companyName}"></p>
-                            </div>
-
-                        </div>
-
-                        <div class="form-group">
-                            <label for="vatNumber">VAT number</label>
-
-                            <input type="text" class="form-control" th:classappend="${#fields.hasErrors('NPWP') ? 'is-invalid' :''}" th:field="*{NPWP}"
-                                   placeholder="NPWP">
-                            <div th:if="${#fields.hasErrors('NPWP')}" class="invalid-feedback">
-                                <p th:errors="*{NPWP}"></p>
-                            </div>
-
-                        </div>
-
-                    </th:block>
-
                     <div class="form-group">
-                        <label th:if="${account_type =='customer_corporate'}" for="firstName">Contact person first
-                            name</label>
-                        <label th:if="${account_type =='customer_retail' or account_type =='provider'}"
-                               for="firstName">First
-                            name</label>
-                        <input type="text" class="form-control" th:classappend="${#fields.hasErrors('firstName') ? 'is-invalid' :''}" th:field="*{firstName}"  placeholder="Jan">
+                        <label for="firstName">First name</label>
+                        <input type="text" class="form-control" th:classappend="${#fields.hasErrors('firstName') ? 'is-invalid' :''}" th:field="*{firstName}"  placeholder="First name">
                         <div th:if="${#fields.hasErrors('firstName')}" class="invalid-feedback">
                             <p th:errors="*{firstName}"></p>
                         </div>
@@ -85,12 +56,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label th:if="${account_type =='customer_corporate'}" for="lastName">Contact person last
-                            name</label>
-                        <label th:if="${account_type =='customer_retail' or account_type =='provider'}"
-                               for="lastName">Last
-                            name</label>
-                        <input type="text" class="form-control" th:classappend="${#fields.hasErrors('lastName') ? 'is-invalid' :''}" th:field="*{lastName}" placeholder="Kowalski">
+                        <label for="lastName">Last name</label>
+                        <input type="text" class="form-control" th:classappend="${#fields.hasErrors('lastName') ? 'is-invalid' :''}" th:field="*{lastName}" placeholder="Last name">
                         <div th:if="${#fields.hasErrors('lastName')}" class="invalid-feedback">
                             <p th:errors="*{lastName}"></p>
                         </div>
@@ -99,17 +66,17 @@
                     <div class="form-group">
                         <label for="email">E-mail</label>
 
-                        <input type="text" class="form-control" th:classappend="${#fields.hasErrors('email') ? 'is-invalid' :''}" th:field="*{email}" placeholder="jkowalski@example.com">
+                        <input type="text" class="form-control" th:classappend="${#fields.hasErrors('email') ? 'is-invalid' :''}" th:field="*{email}" placeholder="abc@example.com">
                         <div th:if="${#fields.hasErrors('email')}" class="invalid-feedback">
                             <p th:errors="*{email}"></p>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="mobile">mobile</label>
+                        <label for="mobile">Mobile</label>
 
                         <input type="text" class="form-control" th:classappend="${#fields.hasErrors('mobile') ? 'is-invalid' :''}" th:field="*{mobile}"
-                               placeholder="505162073">
+                               placeholder="081234567890">
                         <div th:if="${#fields.hasErrors('mobile')}" class="invalid-feedback">
                             <p th:errors="*{mobile}"></p>
                         </div>
@@ -117,9 +84,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="street">street</label>
+                        <label for="street">Street</label>
 
-                        <input type="text" class="form-control" th:classappend="${#fields.hasErrors('street') ? 'is-invalid' :''}" th:field="*{street}" placeholder="ul. Adama Mickiewicza 1">
+                        <input type="text" class="form-control" th:classappend="${#fields.hasErrors('street') ? 'is-invalid' :''}" th:field="*{street}" placeholder="Jl. sukses">
                         <div th:if="${#fields.hasErrors('street')}" class="invalid-feedback">
                             <p th:errors="*{street}"></p>
                         </div>
@@ -127,15 +94,15 @@
 
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="postcode">Postocode</label>
-                            <input type="text" class="form-control" th:classappend="${#fields.hasErrors('postcode') ? 'is-invalid' :''}" th:field="*{postcode}" placeholder="24-199">
+                            <label for="postcode">Postcode</label>
+                            <input type="text" class="form-control" th:classappend="${#fields.hasErrors('postcode') ? 'is-invalid' :''}" th:field="*{postcode}" placeholder="242199">
                             <div th:if="${#fields.hasErrors('postcode')}" class="invalid-feedback">
                                 <p th:errors="*{postcode}"></p>
                             </div>
                         </div>
                         <div class="form-group col-md-8">
                             <label for="city">City</label>
-                            <input type="text" class="form-control" th:classappend="${#fields.hasErrors('city') ? 'is-invalid' :''}" th:field="*{city}" placeholder="Poznan">
+                            <input type="text" class="form-control" th:classappend="${#fields.hasErrors('city') ? 'is-invalid' :''}" th:field="*{city}" placeholder="Jakarta">
                             <div th:if="${#fields.hasErrors('city')}" class="invalid-feedback">
                                 <p th:errors="*{city}"></p>
                             </div>
@@ -144,8 +111,7 @@
 
                     <th:block th:if="${account_type =='provider'}">
                         <div class="form-group">
-                            <p class="text-primary">retail customer target</p>
-                            <p class="text-info">corporate customer target</p>
+                            <p class="text-primary">Customer target</p>
                             <label>Works:</label>
                             <ul>
                                 <li th:each="work : ${allWorks}">

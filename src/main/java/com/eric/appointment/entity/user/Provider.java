@@ -1,6 +1,5 @@
 package com.eric.appointment.entity.user;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.eric.appointment.entity.Appointment;
@@ -15,14 +14,18 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor
 @Entity
 @Table(name = "providers")
+@PrimaryKeyJoinColumn(name = "id_provider")
 public class Provider extends User{
 
     @OneToMany(mappedBy = "provider")
@@ -42,27 +45,7 @@ public class Provider extends User{
     public Provider(UserForm userFormDTO, String encryptedPassword, Role role, WorkingPlan workingPlan) {
         super(userFormDTO, encryptedPassword, role);
         this.workingPlan = workingPlan;
-        workingPlan.setProvider(this);
+        this.workingPlan.setProvider(this);
         this.works = userFormDTO.getWorks();
-    }
-
-    public List<Work> getCorporateWorks() {
-        List<Work> corporateWorks = new ArrayList<>();
-        for (Work w : works) {
-            if (w.getTargetCustomer().equals("corporate")) {
-                corporateWorks.add(w);
-            }
-        }
-        return corporateWorks;
-    }
-
-    public List<Work> getRetailWorks() {
-        List<Work> retailWorks = new ArrayList<>();
-        for (Work w : works) {
-            if (w.getTargetCustomer().equals("retail")) {
-                retailWorks.add(w);
-            }
-        }
-        return retailWorks;
     }
 }

@@ -3,10 +3,9 @@ package com.eric.appointment.model;
 import java.util.List;
 
 import com.eric.appointment.entity.Work;
+import com.eric.appointment.entity.user.Customers;
 import com.eric.appointment.entity.user.Provider;
 import com.eric.appointment.entity.user.User;
-import com.eric.appointment.entity.user.customer.CorporateCustomer;
-import com.eric.appointment.entity.user.customer.RetailCustomer;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;
@@ -18,7 +17,7 @@ public class UserForm {
     
     @NotNull
     @Min(value = 1)
-    private long id;
+    private int id;
 
     @Size(min = 5, max = 15, message = "Username should have 5-15 letters")
     @NotBlank
@@ -64,16 +63,6 @@ public class UserForm {
     }
 
     /*
-     *CorporateCustomer only:
-     */
-    @NotBlank(message = "Company cannot be empty")
-    private String companyName;
-
-    @Pattern(regexp = "[0-9]{15}", message = "Please enter valid NPWP")
-    @NotBlank(message = "NPWP cannot be empty")
-    private String NPWP;
-
-    /*
      * Provider only;
      */
     @NotNull
@@ -97,13 +86,8 @@ public class UserForm {
         this.setWorks(provider.getWorks());
     }
 
-    public UserForm(RetailCustomer retailCustomer) {
-        this((User) retailCustomer);
+    public UserForm(Customers customer) {
+        this((User) customer);
     }
 
-    public UserForm(CorporateCustomer corporateCustomer) {
-        this((User) corporateCustomer);
-        this.setCompanyName(corporateCustomer.getCompanyName());
-        this.setNPWP(corporateCustomer.getNPWP());
-    }
 }
