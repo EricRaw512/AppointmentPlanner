@@ -6,6 +6,7 @@ import com.eric.appointment.entity.Work;
 import com.eric.appointment.entity.user.Customers;
 import com.eric.appointment.entity.user.Provider;
 import com.eric.appointment.entity.user.User;
+import com.eric.appointment.validator.FieldsValueMatch;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@FieldsValueMatch(field = "password", fieldMatch = "matchingPassword")
 public class UserForm {
     
     @NotNull
@@ -29,7 +31,6 @@ public class UserForm {
 
     @Size(min = 5, max = 15, message = "Password should have 5-15 letters")
     @NotBlank
-    @AssertTrue(message = "Passwords must match")
     private String matchingPassword;
 
     @NotBlank(message = "First name cannot be empty")
@@ -56,11 +57,6 @@ public class UserForm {
 
     @NotBlank( message = "City cannot be empty")
     private String city;
-
-
-    public boolean arePasswordsMatching(String password, String matchingPassword) {
-        return password.equals(matchingPassword);
-    }
 
     /*
      * Provider only;
