@@ -41,18 +41,19 @@ public class WebSecurityConfig {
         http
             .csrf(crsf -> crsf.disable())
             .authorizeHttpRequests(authz -> authz
-                .requestMatchers("/css/**", "/customers/new/**").permitAll()
-                .requestMatchers("/").hasAnyRole("CUSTOMER", "PROVIDER", "ADMIN")
+                .requestMatchers("/css/**", "/customers/new/**", "/webjars/**").permitAll()
+                // .requestMatchers("/").hasAnyRole("CUSTOMER", "PROVIDER", "ADMIN")
+                .requestMatchers("/").permitAll()
                 .requestMatchers("/login").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(formLogin -> formLogin
                 .loginPage("/login")
-                .loginProcessingUrl("perform_login")
+                .loginProcessingUrl("/perform_login")
                 .defaultSuccessUrl("/home")
             )
             .logout(logout -> logout
-                .logoutUrl("/logout")
+                .logoutUrl("/perform_logout")
                 .logoutSuccessUrl("/login")
             )
             .exceptionHandling(exceptionHandling -> exceptionHandling
