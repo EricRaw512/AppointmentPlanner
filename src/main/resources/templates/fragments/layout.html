@@ -1,19 +1,74 @@
 <!DOCTYPE html>
-<html th:fragment="layout (content, activeLink, pageTitle)" xmlns:th="http://www.w3.org/1999/html">
+<html th:fragment="layout (content, activeLink, pageTitle)">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title th:text="${pageTitle}">Page title</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}"/>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+
+    <!-- Bootstrap core -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    
+    <!-- JQuery Script -->
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+
+    <!-- Bootstrap Script -->
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+    <!-- FullCalender Script -->
+    <script src=" https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js "></script>
+
+    <!-- font -->
     <script src="https://kit.fontawesome.com/56438f342e.js"></script>
 </head>
 <body>
+
+    <!--navigation bar-->
+    <div sec:authorize="isAuthenticated()">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+    
+                <th:block sec:authorize="hasRole('CUSTOMER')">
+                    <!-- menu for customer-->
+                    <div th:replace="fragments/customer-nav.html :: navlinks(${activeLink})"></div>
+                </th:block>
+    
+                <th:block sec:authorize="hasRole('PROVIDER')">
+                    <!-- menu for provider-->
+                    <div th:replace="fragments/provider-nav.html :: navlinks(${activeLink})"></div>
+                </th:block>
+    
+                <th:block sec:authorize="hasRole('ADMIN')">
+                    <!-- menu for admin-->
+                    <div th:replace="fragments/admin-nav.html :: navlinks(${activeLink})"></div>
+                </th:block>
+    
+                <div class="collapse navbar-collapse">
+                    <ul class= "navbar-nav ml-auto">
+                        <li>
+                            <p class="navbar-nav ml-auto navbar-text"> Logged as:
+                                <span sec:authentication="name">username</span> | </p>
+                        </li>
+                        <li>
+                            <form th:action="@{/perform_logout}" id="logout" method="POST">
+                                <a class="nav-link" href="#"
+                                   onclick="document.getElementById('logout').submit(); return false;">Log out</a>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
     <!-- Page Content -->
     <div class="container">
         <th:block th:insert="${content}"/>
         <div class="row align-items-center justify-content-center" style="margin-top: 50px">
-            <p>AppointmentScheduler v<span th:text="${currentVersion}">1.0</span></p>
+            <p>Appointment Planner</p>
     </div>
 </div>
 </body>

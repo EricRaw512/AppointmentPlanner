@@ -7,6 +7,7 @@ import com.eric.appointment.entity.user.Customers;
 import com.eric.appointment.entity.user.Provider;
 import com.eric.appointment.entity.user.User;
 import com.eric.appointment.validator.FieldsValueMatch;
+import com.eric.appointment.validator.UniqueUsername;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;
@@ -21,6 +22,7 @@ public class UserForm {
     @Min(value = 1)
     private int id;
 
+    @UniqueUsername
     @Size(min = 5, max = 15, message = "Username should have 5-15 letters")
     @NotBlank
     private String userName;
@@ -29,7 +31,6 @@ public class UserForm {
     @NotBlank
     private String password;
 
-    @Size(min = 5, max = 15, message = "Password should have 5-15 letters")
     @NotBlank
     private String matchingPassword;
 

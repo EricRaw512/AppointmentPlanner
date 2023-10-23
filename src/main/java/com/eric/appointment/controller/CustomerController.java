@@ -45,6 +45,7 @@ public class CustomerController {
     @PostMapping("/new/customer")
     public String registerCustomer(@Valid @ModelAttribute("user") UserForm userForm, BindingResult bindingResult, Model model) {
     if (bindingResult.hasErrors()) {
+        System.out.println(bindingResult.toString());
         model.addAttribute("user", userForm);
         model.addAttribute("account_type", "customer");
         model.addAttribute("registerAction", "/customers/new/customer");
