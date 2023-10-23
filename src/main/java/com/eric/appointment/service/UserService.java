@@ -20,5 +20,10 @@ public class UserService {
         .orElseThrow(() -> new UsernameNotFoundException("User not found"));}
 
     public void saveNewCustomer(@Valid UserForm userForm) {
+        
+    }
+
+    public boolean userExist(String value) {
+        return false;
     }
 }
