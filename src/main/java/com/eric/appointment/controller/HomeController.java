@@ -19,7 +19,7 @@ public class HomeController {
     @GetMapping("/")
     public String home(Model model, @AuthenticationPrincipal UserDetail userDetail) {
         model.addAttribute("user", userService.getUserById(userDetail.getId()));
-        return "home";
+        return "home.html";
     }
 
     @GetMapping("/login")

@@ -4,6 +4,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.eric.appointment.model.UserForm;
 import com.eric.appointment.security.UserDetail;
 import com.eric.appointment.service.UserService;
+import com.eric.appointment.validator.groups.CreateUser;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 
@@ -43,7 +44,7 @@ public class CustomerController {
     }
 
     @PostMapping("/new/customer")
-    public String registerCustomer(@Valid @ModelAttribute("user") UserForm userForm, BindingResult bindingResult, Model model) {
+    public String registerCustomer(@Validated(CreateUser.class) @ModelAttribute("user") UserForm userForm, BindingResult bindingResult, Model model) {
     if (bindingResult.hasErrors()) {
         System.out.println(bindingResult.toString());
         model.addAttribute("user", userForm);

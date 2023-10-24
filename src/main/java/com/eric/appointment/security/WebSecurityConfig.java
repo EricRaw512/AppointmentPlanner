@@ -42,8 +42,7 @@ public class WebSecurityConfig {
             .csrf(crsf -> crsf.disable())
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/css/**", "/customers/new/**", "/webjars/**").permitAll()
-                // .requestMatchers("/").hasAnyRole("CUSTOMER", "PROVIDER", "ADMIN")
-                .requestMatchers("/").permitAll()
+                .requestMatchers("/").hasAnyRole("CUSTOMER", "PROVIDER", "ADMIN")
                 .requestMatchers("/login").permitAll()
                 .anyRequest().authenticated()
             )
