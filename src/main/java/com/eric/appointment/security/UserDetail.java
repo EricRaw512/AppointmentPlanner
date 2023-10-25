@@ -28,7 +28,6 @@ public class UserDetail implements UserDetails{
 
     public static UserDetail createUserDetail(User user) {
         Collection<? extends GrantedAuthority> authorities  = List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()));
-        System.out.println(authorities.toString());
         return new UserDetail(
             user.getId(),
             user.getFirstName(),

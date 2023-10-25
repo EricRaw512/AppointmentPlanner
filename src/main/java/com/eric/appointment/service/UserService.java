@@ -1,5 +1,6 @@
 package com.eric.appointment.service;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import com.eric.appointment.dao.user.UserRepository;
 import com.eric.appointment.entity.user.Customers;
 import com.eric.appointment.entity.user.Role;
 import com.eric.appointment.entity.user.User;
+import com.eric.appointment.model.ChangePasswordForm;
 import com.eric.appointment.model.UserForm;
 
 import jakarta.validation.Valid;
@@ -32,5 +34,14 @@ public class UserService {
 
     public boolean userExist(String value) {
         return userRepository.findByUserName(value).orElse(null) != null;
+    }
+
+    @PreAuthorize("#customerId == principal.id or hasRole('ADMIN')")
+    public Customers getCustomerById(int id) {
+        return customerRepository.findById(id).orElseThrow
+            (() -> new UsernameNotFoundException("Customer Not Found"));
+    }
+
+    public void updateUserPassword(@Valid ChangePasswordForm changePasswordForm) {
     }
 }

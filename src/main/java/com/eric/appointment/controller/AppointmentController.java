@@ -4,8 +4,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.eric.appointment.entity.Appointment;
 import com.eric.appointment.security.UserDetail;
 import com.eric.appointment.service.AppointmentService;
 import com.eric.appointment.service.UserService;
@@ -32,4 +34,9 @@ public class AppointmentController {
 
         return "appointments/listAppointments";
     }
+
+    // @GetMapping("/{id}")
+    // public String showAppointmentDetail(@PathVariable("id") int id, Model model, @AuthenticationPrincipal UserDetail userDetail) {
+    //     Appointment appointment = appointmentService.getAppointmentById(id);
+    // }
 }

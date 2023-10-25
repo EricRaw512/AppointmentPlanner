@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@FieldsValueMatch(groups = {CreateUser.class, UpdateUser.class}, field = "password", fieldMatch = "matchingPassword")
+@FieldsValueMatch(groups = {CreateUser.class, UpdateUser.class}, field = "password", fieldMatch = "matchingPassword", message = "Password doesn't match")
 public class UserForm {
     
     @NotNull(groups = UpdateUser.class)

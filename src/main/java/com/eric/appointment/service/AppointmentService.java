@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.eric.appointment.dao.AppointmentRepository;
 import com.eric.appointment.entity.Appointment;
+import com.eric.appointment.exception.AppointmentNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,10 +17,12 @@ public class AppointmentService {
     
     private final AppointmentRepository appointmentRepository;
 
+    @PreAuthorize("#customerId == principal.id")
     public List<Appointment> getAppointmentByCustomerId(int id) {
         return appointmentRepository.findByCustomer_Id(id);
     }
 
+    @PreAuthorize("#providerId == principal.id")
     public List<Appointment> getAppointmentByProviderId(int id) {
         return appointmentRepository.findByProvider_Id(id);
     }
@@ -27,5 +30,19 @@ public class AppointmentService {
     @PreAuthorize(value = "ADMIN")
     public List<Appointment> getAllAppointments() {
         return appointmentRepository.findAll();
+    }
+
+    @PreAuthorize("returnObject.provider.id == principal.id or returnObject.customer.id == principal.id or hasRole('ADMIN')")
+    public Appointment getAppointmentById(int id) {
+    return appointmentRepository.findById(id)
+            .orElseThrow(AppointmentNotFoundException::new);
+    }
+
+    public Object getNumberOfScheduledAppointments(int id) {
+        return null;
+    }
+
+    public Object getNumberOfCanceledAppointments(int id) {
+        return null;
     }
 }

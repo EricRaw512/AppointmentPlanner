@@ -39,17 +39,17 @@
     
                 <th:block sec:authorize="hasRole('CUSTOMER')">
                     <!-- menu for customer-->
-                    <div th:replace="fragments/customer-nav.html :: navlinks(${activeLink})"></div>
+                    <div th:replace="~{fragments/customer-nav.html :: navlinks(${activeLink})}"></div>
                 </th:block>
     
                 <th:block sec:authorize="hasRole('PROVIDER')">
                     <!-- menu for provider-->
-                    <div th:replace="fragments/provider-nav.html :: navlinks(${activeLink})"></div>
+                    <div th:replace="~{fragments/provider-nav.html :: navlinks(${activeLink})}"></div>
                 </th:block>
     
                 <th:block sec:authorize="hasRole('ADMIN')">
                     <!-- menu for admin-->
-                    <div th:replace="fragments/admin-nav.html :: navlinks(${activeLink})"></div>
+                    <div th:replace="~{fragments/admin-nav.html :: navlinks(${activeLink})}"></div>
                 </th:block>
     
                 <div class="collapse navbar-collapse">
@@ -74,7 +74,6 @@
     <div class="container">
         <th:block th:insert="${content}"/>
         <div class="row align-items-center justify-content-center" style="margin-top: 50px">
-            <p>Appointment Planner</p>
     </div>
 </div>
 </body>
