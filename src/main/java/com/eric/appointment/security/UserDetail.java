@@ -27,8 +27,8 @@ public class UserDetail implements UserDetails{
     private Collection<? extends GrantedAuthority> authorities;
 
     public static UserDetail createUserDetail(User user) {
-        List<GrantedAuthority> authorities  = List.of(new SimpleGrantedAuthority(user.getRole().name()));
-
+        Collection<? extends GrantedAuthority> authorities  = List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()));
+        System.out.println(authorities.toString());
         return new UserDetail(
             user.getId(),
             user.getFirstName(),
@@ -75,4 +75,8 @@ public class UserDetail implements UserDetails{
         return true;
     }
     
+    public boolean hasRole(String role) {
+        return authorities.stream()
+            .anyMatch(authority -> authority.getAuthority().equals(role));
+    }
 }

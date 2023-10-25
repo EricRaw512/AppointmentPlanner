@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.eric.appointment.entity.user.Customers;
 import com.eric.appointment.entity.user.Provider;
 import com.eric.appointment.entity.user.User;
 
@@ -43,6 +44,10 @@ public class Appointment extends BaseEntity implements Comparable<Appointment>{
     @OneToOne
     @JoinColumn(name = "id_canceler")
     private User canceller;
+
+    @ManyToOne
+    @JoinColumn(name = "id_customer")
+    private Customers customer;
 
     @ManyToOne
     @JoinColumn(name = "id_provider")

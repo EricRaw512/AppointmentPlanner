@@ -7,6 +7,12 @@
 
     <!-- Bootstrap core -->
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"/>
+
+    <!-- DataTable JS-->
+    <script type="text/javascript" href="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     
     <!-- JQuery Script -->
     <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
@@ -15,7 +21,7 @@
     <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 
     <!-- FullCalender Script -->
-    <script src=" https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js "></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
 
     <!-- font -->
     <script src="https://kit.fontawesome.com/56438f342e.js"></script>
@@ -49,7 +55,7 @@
                 <div class="collapse navbar-collapse">
                     <ul class= "navbar-nav ml-auto">
                         <li>
-                            <p class="navbar-nav ml-auto navbar-text"> Logged as:
+                            <p class="navbar-nav ml-auto navbar-text"> Logged as:  
                                 <span sec:authentication="name">username</span> | </p>
                         </li>
                         <li>
