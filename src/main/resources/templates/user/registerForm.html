@@ -20,39 +20,28 @@
 
                     <div class="form-group">
                         <label for="userName">Username</label>
-
                         <input type="text" class="form-control" th:classappend="${#fields.hasErrors('userName') ? 'is-invalid' :''}" th:field="*{userName}" placeholder="username">
-                        <div th:if="${#fields.hasErrors('userName')}" class="invalid-feedback">
-                           <p th:errors="*{userName}"></p>
-                        </div>
+                        <p th:if="${#fields.hasErrors('userName')}" class="invalid-feedback" th:errors="*{userName}"></p>
 
                     </div>
 
                     <div class="form-group">
                         <label for="password">Password</label>
                         <input type="password" class="form-control" th:classappend="${#fields.hasErrors('password') ? 'is-invalid' :''}" th:field="*{password}" placeholder="password">
-                        <div th:if="${#fields.hasErrors('password')}" class="invalid-feedback">
-                            <p th:errors="*{password}"></p>
-                        </div>
+                        <p th:if="${#fields.hasErrors('password')}" class="invalid-feedback" th:errors="*{password}"></p>
                     </div>
 
                     <div class="form-group">
                         <label for="matchingPassword">Repeat password</label>
                         <input type="password" class="form-control" th:classappend="${#fields.hasErrors('matchingPassword') ? 'is-invalid' :''}" th:field="*{matchingPassword}"
                                placeholder="repeat password">
-                        <div th:if="${#fields.hasErrors('matchingPassword')}" class="invalid-feedback">
-                            <p th:errors="*{matchingPassword}"></p>
-                        </div>
-
+                        <p th:if="${#fields.hasErrors('matchingPassword')}" class="invalid-feedback" th:errors="*{matchingPassword}"></p>
                     </div>
 
                     <div class="form-group">
                         <label for="firstName">First name</label>
                         <input type="text" class="form-control" th:classappend="${#fields.hasErrors('firstName') ? 'is-invalid' :''}" th:field="*{firstName}"  placeholder="First name">
-                        <div th:if="${#fields.hasErrors('firstName')}" class="invalid-feedback">
-                            <p th:errors="*{firstName}"></p>
-                        </div>
-
+                            <p th:if="${#fields.hasErrors('firstName')}" class="invalid-feedback" th:errors="*{firstName}"></p>
                     </div>
 
                     <div class="form-group">

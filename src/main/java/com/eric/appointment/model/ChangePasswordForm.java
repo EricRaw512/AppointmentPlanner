@@ -10,7 +10,7 @@ import lombok.Data;
 
 @Data
 @FieldsValueMatch(field = "newPassword", fieldMatch = "matchingPassword", message = "Password doesn't match")
-@CurrentPasswordMatch(message = "Current Password is Wrong")
+@CurrentPasswordMatch(message = "Current Password is Wrong", field = "currentPassword")
 public class ChangePasswordForm {
  
     @NotNull

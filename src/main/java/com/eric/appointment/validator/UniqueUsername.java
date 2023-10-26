@@ -14,7 +14,6 @@ import jakarta.validation.Payload;
 public @interface UniqueUsername {
 
     String message() default "Username already exist!";
-
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

@@ -35,8 +35,10 @@ public class AppointmentController {
         return "appointments/listAppointments";
     }
 
-    // @GetMapping("/{id}")
-    // public String showAppointmentDetail(@PathVariable("id") int id, Model model, @AuthenticationPrincipal UserDetail userDetail) {
-    //     Appointment appointment = appointmentService.getAppointmentById(id);
-    // }
+    @GetMapping("/{id}")
+    public String showAppointmentDetail(@PathVariable("id") int id, Model model, @AuthenticationPrincipal UserDetail userDetail) {
+        Appointment appointment = appointmentService.getAppointmentById(id);
+        model.addAttribute("appointment", appointment);
+        return "appointments/appointmentDetail";
+    }
 }

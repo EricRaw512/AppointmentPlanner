@@ -15,6 +15,8 @@ public @interface CurrentPasswordMatch {
     
     String message() default "Wrong Current Password";
 
+    String field();
+
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

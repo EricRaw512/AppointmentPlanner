@@ -28,7 +28,7 @@ public class Work extends BaseEntity{
     private String description;
 
     @Column(name = "price")
-    private double price;
+    private long price;
 
     @Column(name = "duration")
     private int duration;
