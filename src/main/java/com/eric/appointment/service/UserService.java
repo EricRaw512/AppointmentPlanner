@@ -42,6 +42,11 @@ public class UserService {
             (() -> new UsernameNotFoundException("Customer Not Found"));
     }
 
+    @PreAuthorize("#changePasswordForm.id == principal.id")
     public void updateUserPassword(@Valid ChangePasswordForm changePasswordForm) {
+        User user = userRepository.findById(changePasswordForm.getId())
+                .orElse(null);
+        user.setPassword(passwordEncoder.encode(changePasswordForm.getNewPassword()));
+        userRepository.save(user);
     }
 }

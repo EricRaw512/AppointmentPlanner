@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.eric.appointment.entity.Appointment;
+import com.eric.appointment.entity.ChatMessage;
 import com.eric.appointment.security.UserDetail;
 import com.eric.appointment.service.AppointmentService;
 import com.eric.appointment.service.UserService;
@@ -39,6 +40,7 @@ public class AppointmentController {
     public String showAppointmentDetail(@PathVariable("id") int id, Model model, @AuthenticationPrincipal UserDetail userDetail) {
         Appointment appointment = appointmentService.getAppointmentById(id);
         model.addAttribute("appointment", appointment);
+        model.addAttribute("chatMessage", new ChatMessage());
         return "appointments/appointmentDetail";
     }
 }
