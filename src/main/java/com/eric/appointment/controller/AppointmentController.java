@@ -1,5 +1,8 @@
 package com.eric.appointment.controller;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +14,7 @@ import com.eric.appointment.entity.Appointment;
 import com.eric.appointment.entity.ChatMessage;
 import com.eric.appointment.security.UserDetail;
 import com.eric.appointment.service.AppointmentService;
-import com.eric.appointment.service.UserService;
+import com.eric.appointment.service.ExchangeService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,8 +23,8 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("appointments")
 public class AppointmentController {
     
-    private final UserService userService;
     private final AppointmentService appointmentService;
+    private final ExchangeService exchangeService;
 
     @GetMapping("/all")
     public String showAllAppointment(Model model, @AuthenticationPrincipal UserDetail userDetail) {
@@ -41,6 +44,24 @@ public class AppointmentController {
         Appointment appointment = appointmentService.getAppointmentById(id);
         model.addAttribute("appointment", appointment);
         model.addAttribute("chatMessage", new ChatMessage());
+        boolean allowedToRequestRejection = appointmentService.isCustomerAllowedToRejectAppointment(userDetail.getId(), id);
+        boolean allowedToAcceptRejection = appointmentService.isProvicerAllowedToAcceptRejection(userDetail.getId(), id);
+        boolean allowedToExchange = exchangeService.checkIfAllowedForExchange(userDetail.getId(), id);
+        model.addAttribute("allowedToRequestRejection", allowedToRequestRejection);
+        model.addAttribute("allowedToAcceptRejection", allowedToAcceptRejection);
+        model.addAttribute("allowedToExchange", allowedToExchange);
+        if (allowedToRequestRejection) {
+            model.addAttribute("remainingTime", FormatDuration(Duration.between(LocalDateTime.now(), appointment.getEnd())));
+        }
+        String cancelNotAllowedReason = appointmentService.getCancelNotAllowedReason(userDetail.getId(), id);
+        model.addAttribute("allowedToCancel", cancelNotAllowedReason == null);
+        model.addAttribute("cancelNotAllowedReason", cancelNotAllowedReason);
         return "appointments/appointmentDetail";
+    }
+
+    private Object FormatDuration(Duration duration) {
+        long hours = duration.toHours();
+        long minutes = duration.minusHours(hours).toMinutes();
+        return String.format("%02d:%02d", hours, minutes);
     }
 }

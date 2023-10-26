@@ -45,4 +45,16 @@ public class AppointmentService {
     public Object getNumberOfCanceledAppointments(int id) {
         return appointmentRepository.findScheduledByUserId(id).size();
     }
+
+    public boolean isCustomerAllowedToRejectAppointment(int id, int id2) {
+        return false;
+    }
+
+    public boolean isProvicerAllowedToAcceptRejection(int id, int id2) {
+        return false;
+    }
+
+    public String getCancelNotAllowedReason(int id, int id2) {
+        return null;
+    }
 }
