@@ -38,11 +38,11 @@ public class AppointmentService {
             .orElseThrow(AppointmentNotFoundException::new);
     }
 
-    public Object getNumberOfScheduledAppointments(int id) {
-        return null;
+    public int getNumberOfScheduledAppointments(int id) {
+        return appointmentRepository.findCanceledByUser(id).size();
     }
 
     public Object getNumberOfCanceledAppointments(int id) {
-        return null;
+        return appointmentRepository.findScheduledByUserId(id).size();
     }
 }
