@@ -36,7 +36,7 @@ public class UserService {
         return userRepository.findByUserName(value).orElse(null) != null;
     }
 
-    @PreAuthorize("#customerId == principal.id or hasRole('ADMIN')")
+    @PreAuthorize("#id == principal.id or hasRole('ADMIN')")
     public Customers getCustomerById(int id) {
         return customerRepository.findById(id).orElseThrow
             (() -> new UsernameNotFoundException("Customer Not Found"));
@@ -48,5 +48,8 @@ public class UserService {
                 .orElse(null);
         user.setPassword(passwordEncoder.encode(changePasswordForm.getNewPassword()));
         userRepository.save(user);
+    }
+
+    public void updateUserProfile(UserForm userForm) {
     }
 }

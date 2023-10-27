@@ -43,7 +43,7 @@ public class Appointment extends BaseEntity implements Comparable<Appointment>{
 
     @OneToOne
     @JoinColumn(name = "id_canceler")
-    private User canceller;
+    private User canceler;
 
     @ManyToOne
     @JoinColumn(name = "id_customer")

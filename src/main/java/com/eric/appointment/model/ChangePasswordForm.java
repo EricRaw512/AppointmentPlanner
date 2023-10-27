@@ -16,6 +16,7 @@ public class ChangePasswordForm {
     @NotNull
     private int id;
 
+    @NotBlank()
     private String currentPassword;
 
     @Size(min = 5, max = 10, message = "Password should have 5-15 letters")

@@ -43,13 +43,18 @@ public class WebSecurityConfig {
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/css/**", "/customers/new/**", "/webjars/**").permitAll()
                 .requestMatchers("/").hasAnyRole("CUSTOMER", "PROVIDER", "ADMIN")
+                .requestMatchers("/customers/**").hasAnyRole("CUSTOMER", "ADMIN")
+                .requestMatchers("/appointments/**").hasAnyRole("CUSTOMER", "PROVIDER", "ADMIN")
+                .requestMatchers("/appointments/new/**").hasRole("CUSTOMER")
+                .requestMatchers("/providers/availability/**").hasRole("PROVIDER")
+                .requestMatchers("/providers/**").hasAnyRole("PROVIDER", "ADMIN")
                 .requestMatchers("/login").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(formLogin -> formLogin
                 .loginPage("/login")
                 .loginProcessingUrl("/perform_login")
-                .defaultSuccessUrl("/home")
+                .defaultSuccessUrl("/", true)
             )
             .logout(logout -> logout
                 .logoutUrl("/perform_logout")

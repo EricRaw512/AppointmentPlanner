@@ -17,12 +17,12 @@ public class AppointmentService {
     
     private final AppointmentRepository appointmentRepository;
 
-    @PreAuthorize("#customerId == principal.id")
+    @PreAuthorize("id == principal.id")
     public List<Appointment> getAppointmentByCustomerId(int id) {
         return appointmentRepository.findByCustomer_Id(id);
     }
 
-    @PreAuthorize("#providerId == principal.id")
+    @PreAuthorize("#id == principal.id")
     public List<Appointment> getAppointmentByProviderId(int id) {
         return appointmentRepository.findByProvider_Id(id);
     }
@@ -39,11 +39,11 @@ public class AppointmentService {
     }
 
     public int getNumberOfScheduledAppointments(int id) {
-        return appointmentRepository.findCanceledByUser(id).size();
+        return appointmentRepository.findScheduledByUserId(id).size();
     }
 
-    public Object getNumberOfCanceledAppointments(int id) {
-        return appointmentRepository.findScheduledByUserId(id).size();
+    public int getNumberOfCanceledAppointments(int id) {
+        return appointmentRepository.findCanceledByUser(id).size();
     }
 
     public boolean isCustomerAllowedToRejectAppointment(int id, int id2) {
