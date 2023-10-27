@@ -45,18 +45,23 @@ public class AppointmentController {
         model.addAttribute("appointment", appointment);
         model.addAttribute("chatMessage", new ChatMessage());
         boolean allowedToRequestRejection = appointmentService.isCustomerAllowedToRejectAppointment(userDetail.getId(), id);
-        boolean allowedToAcceptRejection = appointmentService.isProvicerAllowedToAcceptRejection(userDetail.getId(), id);
+        boolean allowedToAcceptRejection = appointmentService.isProviderAllowedToAcceptRejection(userDetail.getId(), id);
         boolean allowedToExchange = exchangeService.checkIfAllowedForExchange(userDetail.getId(), id);
         model.addAttribute("allowedToRequestRejection", allowedToRequestRejection);
         model.addAttribute("allowedToAcceptRejection", allowedToAcceptRejection);
         model.addAttribute("allowedToExchange", allowedToExchange);
         if (allowedToRequestRejection) {
-            model.addAttribute("remainingTime", FormatDuration(Duration.between(LocalDateTime.now(), appointment.getEnd())));
+            model.addAttribute("remainingTime", FormatDuration(Duration.between(LocalDateTime.now(), appointment.getEnd().plusDays(1))));
         }
         String cancelNotAllowedReason = appointmentService.getCancelNotAllowedReason(userDetail.getId(), id);
         model.addAttribute("allowedToCancel", cancelNotAllowedReason == null);
         model.addAttribute("cancelNotAllowedReason", cancelNotAllowedReason);
         return "appointments/appointmentDetail";
+    }
+
+    @GetMapping("/new")
+    public String newAppointment(Model model, @AuthenticationPrincipal UserDetail userDetail) {
+        model.addAttribute("providers", u)
     }
 
     private Object FormatDuration(Duration duration) {

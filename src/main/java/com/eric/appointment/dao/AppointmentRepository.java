@@ -1,5 +1,6 @@
 package com.eric.appointment.dao;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,4 +22,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 
     @Query("SELECT * FROM Appointments WHERE id_canceler = :userId")
     List<Appointment> findScheduledByUserId(@Param("userId") int id);
+
+    @Query("SELECT * FROM Appointments WHERE id_customer = :userId AND id_canceler = :userId AND canceled_at >= :date")
+    List<Appointment> findByCustomerIdCancceledAfterDate(@Param("userId") int userId, @Param("date") LocalDateTime atStartOfDay);
 }
