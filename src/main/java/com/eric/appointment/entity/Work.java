@@ -36,9 +36,6 @@ public class Work extends BaseEntity{
     @Column(name =  "editable")
     private boolean editable;
 
-    @Column(name = "target")
-    private String targetCustomer;
-
     @ManyToMany
     @JoinTable(
         name = "works_providers", 

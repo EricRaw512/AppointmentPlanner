@@ -3,7 +3,7 @@ package com.eric.appointment.model;
 import java.util.List;
 
 import com.eric.appointment.entity.Work;
-import com.eric.appointment.entity.user.Customers;
+import com.eric.appointment.entity.user.Customer;
 import com.eric.appointment.entity.user.Provider;
 import com.eric.appointment.entity.user.User;
 import com.eric.appointment.validator.FieldsValueMatch;
@@ -87,7 +87,7 @@ public class UserForm {
         this.setWorks(provider.getWorks());
     }
 
-    public UserForm(Customers customer) {
+    public UserForm(Customer customer) {
         this((User) customer);
     }
 

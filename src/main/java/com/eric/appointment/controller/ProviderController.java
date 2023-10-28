@@ -45,21 +45,21 @@ public class ProviderController {
         return "users/listProvider";
     }
 
-    @GetMapping("/new/provider")
+    @GetMapping("/new")
     public String registrationForm(Model model, @AuthenticationPrincipal UserDetail userDetail) {
         if (!model.containsAttribute("user")) model.addAttribute("user", new UserForm());
         model.addAttribute("account_type", "provider");
-        model.addAttribute("registerAction", "/providers/new/provider");
+        model.addAttribute("registerAction", "/providers/new");
         model.addAttribute("allWorks", workService.getAllWorks());
         return "user/registerForm";
     }
 
-    @PostMapping("/new/provider")
+    @PostMapping("/new")
     public String registerCustomer(@Validated(CreateProvider.class) @ModelAttribute("user") UserForm userForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
     if (bindingResult.hasErrors()) {
         redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.user", bindingResult);
         redirectAttributes.addFlashAttribute("user", userForm);
-        return "redirect:/providers/new/provider";
+        return "redirect:/providers/new";
     }
     userService.saveNewProvider(userForm);
     return "redirect:/providers/all";

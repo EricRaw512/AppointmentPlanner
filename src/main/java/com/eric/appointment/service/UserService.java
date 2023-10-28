@@ -11,7 +11,7 @@ import com.eric.appointment.dao.user.CustomerRepository;
 import com.eric.appointment.dao.user.ProviderRepository;
 import com.eric.appointment.dao.user.UserRepository;
 import com.eric.appointment.entity.WorkingPlan;
-import com.eric.appointment.entity.user.Customers;
+import com.eric.appointment.entity.user.Customer;
 import com.eric.appointment.entity.user.Provider;
 import com.eric.appointment.entity.user.Role;
 import com.eric.appointment.entity.user.User;
@@ -34,7 +34,7 @@ public class UserService {
         .orElseThrow(() -> new UsernameNotFoundException("User not found"));}
 
     public void saveNewCustomer(@Valid UserForm userForm) {
-        Customers customer = new Customers(userForm, passwordEncoder.encode(userForm.getPassword()), Role.CUSTOMER);
+        Customer customer = new Customer(userForm, passwordEncoder.encode(userForm.getPassword()), Role.CUSTOMER);
         customerRepository.save(customer);
     }
 
@@ -42,8 +42,12 @@ public class UserService {
         return userRepository.findByUserName(value).orElse(null) != null;
     }
 
+    public List<Customer> getAllCustomers() {
+        return customerRepository.findAll();
+    }
+
     @PreAuthorize("#id == principal.id or hasRole('ADMIN')")
-    public Customers getCustomerById(int id) {
+    public Customer getCustomerById(int id) {
         return customerRepository.findById(id).orElseThrow
             (() -> new UsernameNotFoundException("Customer Not Found"));
     }
@@ -58,7 +62,7 @@ public class UserService {
 
     @PreAuthorize("#userForm.id == principal.id or hasRole('ADMIN')")
     public void updateUserProfile(UserForm userForm) {
-        Customers customer = customerRepository.findById(userForm.getId()).orElse(null);
+        Customer customer = customerRepository.findById(userForm.getId()).orElse(null);
         customer.update(userForm);
         customerRepository.save(customer);
     }

@@ -19,4 +19,8 @@ public class WorkService {
         return WorkRepository.findAll();
     }
 
+    public void deleteWorkById(int id) {
+        WorkRepository.deleteById(id);
+    }
+
 }

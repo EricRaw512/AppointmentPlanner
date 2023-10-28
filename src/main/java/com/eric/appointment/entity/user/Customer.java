@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name = "customers")
 @PrimaryKeyJoinColumn(name = "id_customer")
-public class Customers extends User{
+public class Customer extends User{
 
-    public Customers(UserForm userForm, String encryptedPassword, Role role) {
+    public Customer(UserForm userForm, String encryptedPassword, Role role) {
         super(userForm, encryptedPassword, role);
     }
 

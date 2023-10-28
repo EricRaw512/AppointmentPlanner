@@ -32,6 +32,12 @@ public class CustomerController {
 
     private final UserService userService;
     private final AppointmentService appointmentService;
+
+    @GetMapping("/all")
+    public String showAllCustomers(Model model) {
+        model.addAttribute("customers", userService.getAllCustomers());
+        return "users/listCustomers";
+    }
     
     @GetMapping("/new/customer")
     public String registrationForm(Model model, @AuthenticationPrincipal UserDetail userDetail) {
@@ -99,5 +105,11 @@ public class CustomerController {
 
         userService.updateUserProfile(userForm);
         return "redirect:/customers/" + userForm.getId();
+    }
+
+    @PostMapping("/delete")
+    public String deleteCustomer(@RequestParam("customerId") int id) {
+        userService.deleteUserById(id);
+        return "redirect:/customers/all";
     }
 }
