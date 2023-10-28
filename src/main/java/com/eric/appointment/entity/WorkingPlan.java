@@ -79,4 +79,14 @@ public class WorkingPlan {
                 return null;
         }
     }
+
+    public void updateWorkingPlan(WorkingPlan updatePlan) {
+        this.getMonday().setWorkingPeriod(updatePlan.getMonday().getWorkingPeriod());
+        this.getTuesday().setWorkingPeriod(updatePlan.getTuesday().getWorkingPeriod());
+        this.getWednesday().setWorkingPeriod(updatePlan.getWednesday().getWorkingPeriod());
+        this.getThursday().setWorkingPeriod(updatePlan.getThursday().getWorkingPeriod());
+        this.getFriday().setWorkingPeriod(updatePlan.getFriday().getWorkingPeriod());
+        this.getSaturday().setWorkingPeriod(updatePlan.getSaturday().getWorkingPeriod());
+        this.getSunday().setWorkingPeriod(updatePlan.getSunday().getWorkingPeriod());
+    }
 }

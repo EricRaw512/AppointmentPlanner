@@ -49,4 +49,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(changePasswordForm.getNewPassword()));
         userRepository.save(user);
     }
+
+    public void updateUserProfile(UserForm userForm) {
+    }
 }

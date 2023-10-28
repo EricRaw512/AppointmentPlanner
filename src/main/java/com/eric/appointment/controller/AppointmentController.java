@@ -61,10 +61,11 @@ public class AppointmentController {
 
     @GetMapping("/new")
     public String newAppointment(Model model, @AuthenticationPrincipal UserDetail userDetail) {
-        model.addAttribute("providers", u)
+        // model.addAttribute("providers", userService.find)
+        return "appointments/newAppointment";
     }
 
-    private Object FormatDuration(Duration duration) {
+    private String FormatDuration(Duration duration) {
         long hours = duration.toHours();
         long minutes = duration.minusHours(hours).toMinutes();
         return String.format("%02d:%02d", hours, minutes);

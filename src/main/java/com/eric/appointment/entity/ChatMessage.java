@@ -6,6 +6,8 @@ import com.eric.appointment.entity.user.User;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,10 +24,12 @@ public class ChatMessage extends BaseEntity implements Comparable<ChatMessage>{
     @Column(name = "message")
     private String message;
 
-    @Column(name = "id_sender")
+    @ManyToOne
+    @JoinColumn(name = "id_sender")
     private User Sender;
 
-    @Column(name = "id_appointment")
+    @ManyToOne
+    @JoinColumn(name = "id_appointment")
     private Appointment appointment;
 
     @Override

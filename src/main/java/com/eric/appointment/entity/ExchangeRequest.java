@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,10 +23,10 @@ public class ExchangeRequest extends BaseEntity{
     private ExchangeRequestStatus exchangeStatus;
 
     @OneToOne
-    @Column(name = "requestor")
+    @JoinColumn(name = "id_appointment_requestor")
     private Appointment requestor;
 
     @OneToOne
-    @Column(name = "requested")
+    @JoinColumn(name = "id_appointment_requested")
     private Appointment requested;
 }

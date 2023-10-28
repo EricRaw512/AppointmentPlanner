@@ -41,19 +41,22 @@
     <div class="col-sm-9">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" role="tab"
-                   aria-controls="profile" aria-selected="true" type="button">Profile</button>
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" role="tab"
+                    aria-controls="profile" aria-selected="true" type="button">
+                    Profile
+                </button>
             </li>
             <li sec:authorize="hasRole('ROLE_PROVIDER') or hasRole('ROLE_CUSTOMER')" class="nav-item">
                 <button class="nav-link" id="changingPassword-tab" data-bs-toggle="tab" data-bs-target="#changingPassword" role="tab"
-                   aria-controls="changingPassword" aria-selected="false" type="button">Password</button>
+                    aria-controls="changingPassword" aria-selected="false" type="button" th:classappend="${param.activeTab == 'changingPassword' ? 'active' : ''}">
+                    Password
+                </button>
             </li>
-
         </ul>
 
 
         <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active pt-3" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="tab-pane fade pt-3" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                 <form th:action="@{${formActionProfile}}" th:object="${user}" method="POST">
 
                     <input type="hidden" class="form-control" th:field="*{id}">
@@ -140,13 +143,13 @@
                         </div>
                     </th:block>
 
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button style="margin-top: 10px" type="submit" class="btn btn-primary">Save</button>
                 </form>
 
 
             </div>
 
-            <div class="tab-pane fade pt-3" id="changingPassword" role="tabpanel" aria-labelledby="changingPassword-tab">
+            <div class="tab-pane fade pt-3" id="changingPassword" role="tabpanel" aria-labelledby="changingPassword-tab" >
 
                 <form th:action="@{${formActionPassword}}" th:object="${changePassword}" method="POST">
 
@@ -183,12 +186,20 @@
                     <button style="margin-top: 10px" type="submit" class="btn btn-primary">Save</button>
                 </form>
             </div>
-
         </div>
-
     </div>
-
-
 </div>
+
+<script th:inline="javascript">
+    // Check if the URL contains the activeTab parameter and it is set to 'changingPassword'
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('activeTab') && urlParams.get('activeTab') === 'changingPassword') {
+        // Trigger a click event on the "Password" tab button
+        document.getElementById('changingPassword-tab').click();
+    } else {
+        document.getElementById('profile-tab').click();
+    }
+</script>
+
 </body>
 </html>

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eric.appointment.model.ChangePasswordForm;
@@ -18,6 +19,7 @@ import com.eric.appointment.security.UserDetail;
 import com.eric.appointment.service.AppointmentService;
 import com.eric.appointment.service.UserService;
 import com.eric.appointment.validator.groups.CreateUser;
+import com.eric.appointment.validator.groups.UpdateUser;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -63,7 +65,7 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public String showCustomerDetail(@PathVariable("id") int id, Model model, @AuthenticationPrincipal UserDetail userDetail) {
+    public String showCustomerDetail(@PathVariable("id") int id, Model model, @AuthenticationPrincipal UserDetail userDetail, @RequestParam(value = "activeTab", required = false) String activeTab) {
         if (!model.containsAttribute("user")) {
             model.addAttribute("user", new UserForm(userService.getUserById(id)));
             model.addAttribute("account_type", "customer");
@@ -80,13 +82,26 @@ public class CustomerController {
     }
 
     @PostMapping("/update/password")
-    public String updateCustomer(@Valid @ModelAttribute("passwordChange") ChangePasswordForm changePasswordForm, BindingResult bindingResult, @AuthenticationPrincipal UserDetail userDetail, RedirectAttributes redirectAttributes) {
+    public String updateUserPassword(@Valid @ModelAttribute("changePassword") ChangePasswordForm changePasswordForm, BindingResult bindingResult, @AuthenticationPrincipal UserDetail userDetail, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.passwordChange", bindingResult);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.changePassword", bindingResult);
             redirectAttributes.addFlashAttribute("changePassword", changePasswordForm);
-            return "redirect:/customers/" + userDetail.getId();
+            return "redirect:/customers/" + userDetail.getId() + "?activeTab=changingPassword";
         }
+        
         userService.updateUserPassword(changePasswordForm);
-        return "redirect:/customers/" + userDetail.getId();
+        return "redirect:/customers/" + userDetail.getId() + "?activeTab=changingPassword";
+    }
+
+    @PostMapping("/update/profile")
+    public String updateUserProfile(@Validated(UpdateUser.class) @ModelAttribute("user") UserForm userForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.user", bindingResult);
+            redirectAttributes.addFlashAttribute("user", userForm);
+            return "redirect:/customers/" + userForm.getId();
+        }
+
+        userService.updateUserProfile(userForm);
+        return "redirect:/customers/" + userForm.getId();
     }
 }
