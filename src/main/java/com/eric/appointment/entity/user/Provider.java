@@ -48,4 +48,10 @@ public class Provider extends User{
         this.workingPlan.setProvider(this);
         this.works = userFormDTO.getWorks();
     }
+
+    @Override
+    public void update(UserForm userform) {
+        super.update(userform);
+        this.setWorks(userform.getWorks());
+    }
 }

@@ -33,19 +33,14 @@ public class CustomerController {
     private final UserService userService;
     private final AppointmentService appointmentService;
     
-    @GetMapping("/new/{customer_type}")
-    public String registrationForm(@PathVariable("customer_type") String customerType, Model model, @AuthenticationPrincipal UserDetail userDetail) {
+    @GetMapping("/new/customer")
+    public String registrationForm(Model model, @AuthenticationPrincipal UserDetail userDetail) {
         if (userDetail != null) {
             return "redirect:/";
         }
-        
-        if (customerType.equals("customer")) {
-            model.addAttribute("account_type", "customer");
-            model.addAttribute("registerAction", "/customers/new/customer");
-        } else {
-            throw new RuntimeException();
-        }
- 
+
+        model.addAttribute("account_type", "customer");
+        model.addAttribute("registerAction", "/customers/new/customer");
         model.addAttribute("user", new UserForm());
         return "user/registerForm";
     }
@@ -68,13 +63,14 @@ public class CustomerController {
     public String showCustomerDetail(@PathVariable("id") int id, Model model, @AuthenticationPrincipal UserDetail userDetail, @RequestParam(value = "activeTab", required = false) String activeTab) {
         if (!model.containsAttribute("user")) {
             model.addAttribute("user", new UserForm(userService.getUserById(id)));
-            model.addAttribute("account_type", "customer");
-            model.addAttribute("formActionProfile", "/customers/update/profile");
         }
+        
         if (!model.containsAttribute("changePassword")) {
             model.addAttribute("changePassword", new ChangePasswordForm(id));
         }
 
+        model.addAttribute("account_type", "customer");
+        model.addAttribute("formActionProfile", "/customers/update/profile");
         model.addAttribute("formActionPassword", "/customers/update/password");
         model.addAttribute("numberOfScheduledAppointments", appointmentService.getNumberOfScheduledAppointments(id));
         model.addAttribute("numberOfCanceledAppointments", appointmentService.getNumberOfCanceledAppointments(id));

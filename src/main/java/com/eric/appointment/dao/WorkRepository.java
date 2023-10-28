@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.eric.appointment.entity.Work;
 
 @Repository
-public interface WoksRepository extends JpaRepository<Work, Integer>{
+public interface WorkRepository extends JpaRepository<Work, Integer>{
     
 }

@@ -1,10 +1,13 @@
 package com.eric.appointment.entity;
 
+import java.time.LocalTime;
+
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import com.eric.appointment.entity.user.Provider;
 import com.eric.appointment.model.DayPlan;
+import com.eric.appointment.model.TimePeriod;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -88,5 +91,22 @@ public class WorkingPlan {
         this.getFriday().setWorkingPeriod(updatePlan.getFriday().getWorkingPeriod());
         this.getSaturday().setWorkingPeriod(updatePlan.getSaturday().getWorkingPeriod());
         this.getSunday().setWorkingPeriod(updatePlan.getSunday().getWorkingPeriod());
+    }
+
+    public static WorkingPlan generateDefaultWorkingPlan() {
+        WorkingPlan wp = new WorkingPlan();
+        LocalTime defaultStartHour = LocalTime.parse("06:00");
+        LocalTime defaultEndHour = LocalTime.parse("18:00");
+        TimePeriod defaultWorkingPeroid = new TimePeriod(defaultStartHour, defaultEndHour);
+        DayPlan defaultDayPlan = new DayPlan();
+        defaultDayPlan.setWorkingPeriod(defaultWorkingPeroid);
+        wp.setMonday(defaultDayPlan);
+        wp.setTuesday(defaultDayPlan);
+        wp.setWednesday(defaultDayPlan);
+        wp.setThursday(defaultDayPlan);
+        wp.setFriday(defaultDayPlan);
+        wp.setSaturday(defaultDayPlan);
+        wp.setSunday(defaultDayPlan);
+        return wp;
     }
 }

@@ -16,4 +16,6 @@ public class Customers extends User{
     public Customers(UserForm userForm, String encryptedPassword, Role role) {
         super(userForm, encryptedPassword, role);
     }
+
+
 }

@@ -63,5 +63,15 @@ public class User extends BaseEntity{
         this.postcode = userForm.getPostcode();
         this.password = encryptedPassword;
         this.role = role;
-    }   
+    }  
+    
+    public void update(UserForm userForm) {
+        this.setFirstName(userForm.getFirstName());
+        this.setLastName(userForm.getLastName());
+        this.setEmail(userForm.getEmail());
+        this.setMobile(userForm.getMobile());
+        this.setStreet(userForm.getStreet());
+        this.setCity(userForm.getCity());
+        this.setPostcode(userForm.getPostcode());
+    }
 }

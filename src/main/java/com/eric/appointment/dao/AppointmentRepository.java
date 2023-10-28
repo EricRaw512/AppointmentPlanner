@@ -23,6 +23,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
     @Query("SELECT a FROM Appointment a WHERE a.status = 'SCHEDULED' AND (a.customer.id = :userId or a.provider.id = :userId)")
     List<Appointment> findScheduledByUserId(@Param("userId") int id);
 
-    @Query("SELECT * FROM Appointments WHERE id_customer = :userId AND id_canceler = :userId AND canceled_at >= :date")
+    @Query("SELECT a FROM Appointment a WHERE a.customer.ud = :userId AND a.canceler.id = :userId AND a.canceledAt >= :date")
     List<Appointment> findByCustomerIdCancceledAfterDate(@Param("userId") int userId, @Param("date") LocalDateTime atStartOfDay);
 }
