@@ -42,7 +42,7 @@ public class ProviderController {
     @GetMapping("/all")
     public String showAllProvider(Model model) {
         model.addAttribute("providers", userService.getAllProvider());
-        return "users/listProvider";
+        return "user/listProvider";
     }
 
     @GetMapping("/new")

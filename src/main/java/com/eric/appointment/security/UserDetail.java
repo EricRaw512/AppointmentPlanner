@@ -75,6 +75,7 @@ public class UserDetail implements UserDetails{
     }
     
     public boolean hasRole(String role) {
+        System.out.println(authorities.toString());
         return authorities.stream()
             .anyMatch(authority -> authority.getAuthority().equals(role));
     }

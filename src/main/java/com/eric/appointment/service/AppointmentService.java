@@ -43,7 +43,7 @@ public class AppointmentService {
         return appointmentRepository.findByProvider_Id(id);
     }
 
-    @PreAuthorize(value = "ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<Appointment> getAllAppointments() {
         return appointmentRepository.findAll();
     }
@@ -177,7 +177,19 @@ public class AppointmentService {
         return appointmentRepository.findByProviderIdWithStartInPeriod(providerId, localDate.atStartOfDay(), localDate.atStartOfDay().plusDays(1));
     }
 
-    public void createNewAppointment(int workId, int providerId, int id, LocalDateTime parse) {
-        if (workAvailable(providerId, workId, id, parse))
-    }
+    public void createNewAppointment(int workId, int providerId, int customerId, LocalDateTime start) {
+        if (!workAvailable(providerId, workId, customerId, start)) {
+            throw new RuntimeException();
+        }
+
+        Appointment appointment = new Appointment();
+        appointment.setStatus(AppointmentStatus.SCHEDULED);
+        appointment.setCustomer(userService.getCustomerById(customerId));
+        appointment.setProvider(userService.getProviderById(providerId));
+        Work work = workService.getWorkById(workId);
+        appointment.setWork(work);
+        appointment.setStart(start);
+        appointment.setEnd(start.plusMinutes(work.getDuration()));
+        appointmentRepository.save(appointment);
+    } 
 }

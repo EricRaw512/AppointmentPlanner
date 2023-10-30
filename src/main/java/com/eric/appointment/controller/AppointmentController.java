@@ -71,8 +71,8 @@ public class AppointmentController {
         return "appointments/selectProvider";
     }
 
-    @GetMapping("/new/{provider.id}")
-    public String selectService(@PathVariable("provider.id") int id, Model model) {
+    @GetMapping("/new/{providerId}")
+    public String selectService(@PathVariable("providerId") int id, Model model) {
         model.addAttribute("works", workService.getWorksByProviderId(id));
         model.addAttribute(id);
         return "appointments/selectService";

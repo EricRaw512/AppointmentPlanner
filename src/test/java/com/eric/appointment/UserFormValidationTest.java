@@ -18,6 +18,7 @@ public class UserFormValidationTest {
 
     @Test
     public void testValidUserForm() throws Exception {
+        System.out.println(org.hibernate.Version.getVersionString());
         mockMvc.perform(MockMvcRequestBuilders.post("/customers/new/customer")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("user", "test") //How??????????

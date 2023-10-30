@@ -3,6 +3,8 @@ package com.eric.appointment.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,11 +27,29 @@ public class WorkControler {
         return "work/workList";
     }
 
+    @GetMapping("/{workId}")
+    public String showWorkForm(@PathVariable("workId") int workId, Model model) {
+        model.addAttribute("work", workService.getWorkById(workId));
+        return "works/workForm";
+    }
+
     @GetMapping("/new")
     public String addNewWork(Model model) {
         model.addAttribute("work", new Work());
         return "work/workForm";
     }
+
+    @PostMapping("/new")
+    public String saveNewWork(@ModelAttribute("work") Work work) {
+        if (workService.getWorkById(work.getId()) != null) {
+            workService.updateWork(work);
+        } else {
+            workService.createNewWork(work);
+        }
+
+        return "redirect:/works/all";
+    }
+
 
     @PostMapping("/delete")
     public String deleteWork(@RequestParam("workId") int id) {

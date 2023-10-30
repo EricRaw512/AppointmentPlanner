@@ -100,13 +100,12 @@
 
                     <th:block th:if="${account_type =='provider'}">
                         <div class="form-group">
-                            <p class="text-primary">Customer target</p>
                             <label>Works:</label>
                             <ul>
                                 <li th:each="work : ${allWorks}">
                                     <input type="checkbox" th:field="*{works}" th:value="${work.id}" />
                                     <label th:for="${#ids.prev('works')}"
-                                           th:text="${work.name}" th:classappend="${work.targetCustomer=='retail'} ? text-primary : text-info">French lesson</label>
+                                           th:text="${work.name}" th:classappend="text-primary">French lesson</label>
                                 </li>
                             </ul>
                         </div>

@@ -10,6 +10,7 @@ import com.eric.appointment.model.DayPlan;
 import com.eric.appointment.model.TimePeriod;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
