@@ -3,18 +3,24 @@ package com.eric.appointment.service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.eric.appointment.dao.AppointmentRepository;
-import com.eric.appointment.dao.user.UserRepository;
 import com.eric.appointment.entity.Appointment;
 import com.eric.appointment.entity.AppointmentStatus;
+import com.eric.appointment.entity.Work;
+import com.eric.appointment.entity.WorkingPlan;
+import com.eric.appointment.entity.user.Provider;
 import com.eric.appointment.entity.user.Role;
 import com.eric.appointment.entity.user.User;
 import com.eric.appointment.exception.AppointmentNotFoundException;
+import com.eric.appointment.model.DayPlan;
+import com.eric.appointment.model.TimePeriod;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,8 +29,9 @@ import lombok.RequiredArgsConstructor;
 public class AppointmentService {
     
     private final int NUMBER_OF_ALLOWED_CANCELLATIONS_PER_MONTH = 1;
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final AppointmentRepository appointmentRepository;
+    private final WorkService workService;
 
     @PreAuthorize("#Id == principal.id")
     public List<Appointment> getAppointmentByCustomerId(int id) {
@@ -56,21 +63,21 @@ public class AppointmentService {
     }
 
     public boolean isCustomerAllowedToRejectAppointment(int userId, int appointmentId) {
-        User user = userRepository.findById(userId).orElse(null);
+        User user = userService.getCustomerById(userId);
         Appointment appointment = appointmentRepository.findById(appointmentId).orElse(null);
         
         return appointment.getCustomer().equals(user) && appointment.getStatus().equals(AppointmentStatus.FINISHED) && !LocalDateTime.now().isAfter(appointment.getEnd().plusDays(1));
     }
 
     public boolean isProviderAllowedToAcceptRejection(int userId, int appointmentId) {
-        User user = userRepository.findById(userId).orElse(null);
+        User user = userService.getProviderById(userId);
         Appointment appointment = appointmentRepository.findById(appointmentId).orElse(null);
         
         return appointment.getProvider().equals(user) && appointment.getStatus().equals(AppointmentStatus.REJECTION_REQUESTED);
     }
 
     public String getCancelNotAllowedReason(int userId, int appointmentId) {
-        User user = userRepository.findById(userId).orElse(null);
+        User user = userService.getCustomerById(userId);
         Appointment appointment = appointmentRepository.findById(appointmentId).orElse(null);
         
         if (user.getRole() == Role.ADMIN) {
@@ -103,6 +110,74 @@ public class AppointmentService {
     }
 
     private List<Appointment> getCanceledAppointmentsByCustomerIdForCurrentMonth(int userId) {
-        return appointmentRepository.findByCustomerIdCancceledAfterDate(userId, LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()).atStartOfDay());
+        return appointmentRepository.findByCustomerIdCanceledAfterDate(userId, LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()).atStartOfDay());
+    }
+
+    public boolean workAvailable(int providerId, int workId, int customerId, LocalDateTime start) {
+        Work work = workService.getWorkById(workId);
+        TimePeriod timePeriod = new TimePeriod(start.toLocalTime(), start.toLocalTime().plusMinutes(work.getDuration()));
+        return getAvailableHours(providerId, workId, customerId, start.toLocalDate()).contains(timePeriod);
+    }
+
+    private List<TimePeriod> getAvailableHours(int providerId, int workId, int customerId, LocalDate localDate) {
+        Provider provider = userService.getProviderById(providerId);
+        WorkingPlan workingPlan = provider.getWorkingPlan();
+        DayPlan selectedDay = workingPlan.getDay(localDate.getDayOfWeek().toString().toLowerCase());
+        List<Appointment> providerAppointments = getAppointmentByProviderIdAtDay(providerId, localDate);
+        List<Appointment> customerAppointments = getAppointmentByCustomerIdAtDay(customerId, localDate);
+        List<TimePeriod> availablePeriods = selectedDay.timePeriodWithBreakExcluded();
+        availablePeriods = excludeAppointmentFromTimePeriod(availablePeriods, providerAppointments);
+        availablePeriods = excludeAppointmentFromTimePeriod(availablePeriods, customerAppointments);
+        return calculateAvailableHours(availablePeriods, workService.getWorkById(workId));
+    }
+
+    private List<TimePeriod> calculateAvailableHours(List<TimePeriod> availablePeriods, Work work) {
+        List<TimePeriod> availableHours = new ArrayList<>();
+        for (TimePeriod period : availablePeriods) {
+            TimePeriod workPeriod = new TimePeriod(period.getStart(), period.getStart().plusMinutes(work.getDuration()));
+            if (workPeriod.getStart().isAfter(period.getStart()) || workPeriod.getStart().equals(period.getStart())) {
+                while (workPeriod.getEnd().isBefore(period.getEnd()) || workPeriod.getEnd().equals(period.getEnd())) {
+                    availableHours.add(new TimePeriod(workPeriod.getStart(), workPeriod.getStart().plusMinutes(work.getDuration())));
+                    workPeriod.setStart(workPeriod.getStart().plusMinutes(work.getDuration()));
+                    workPeriod.setEnd(workPeriod.getEnd().plusMinutes(work.getDuration()));
+                }
+            }
+        }
+        return availableHours;
+    }
+
+    private List<TimePeriod> excludeAppointmentFromTimePeriod(List<TimePeriod> availablePeriods,
+        List<Appointment> appointments) {
+        List<TimePeriod> toAdd = new ArrayList<>();
+        Collections.sort(appointments);
+        for (Appointment appointment : appointments) {
+            for (TimePeriod period : availablePeriods) {
+                if ((appointment.getStart().toLocalTime().isBefore(period.getStart()) || appointment.getStart().toLocalTime().equals(period.getStart())) && appointment.getEnd().toLocalTime().isAfter(period.getStart()) && appointment.getEnd().toLocalTime().isBefore(period.getEnd())) {
+                    period.setStart(appointment.getEnd().toLocalTime());
+                }
+                if (appointment.getStart().toLocalTime().isAfter(period.getStart()) && appointment.getStart().toLocalTime().isBefore(period.getEnd()) && appointment.getEnd().toLocalTime().isAfter(period.getEnd()) || appointment.getEnd().toLocalTime().equals(period.getEnd())) {
+                    period.setEnd(appointment.getStart().toLocalTime());
+                }
+                if (appointment.getStart().toLocalTime().isAfter(period.getStart()) && appointment.getEnd().toLocalTime().isBefore(period.getEnd())) {
+                    toAdd.add(new TimePeriod(period.getStart(), appointment.getStart().toLocalTime()));
+                    period.setStart(appointment.getEnd().toLocalTime());
+                }
+            }
+        }
+        availablePeriods.addAll(toAdd);
+        Collections.sort(availablePeriods);
+        return availablePeriods;
+    }
+
+    private List<Appointment> getAppointmentByCustomerIdAtDay(int customerId, LocalDate localDate) {
+        return appointmentRepository.findByCustomerIdWithStartInPeriod(customerId, localDate.atStartOfDay(), localDate.atStartOfDay().plusDays(1));
+    }
+
+    private List<Appointment> getAppointmentByProviderIdAtDay(int providerId, LocalDate localDate) {
+        return appointmentRepository.findByProviderIdWithStartInPeriod(providerId, localDate.atStartOfDay(), localDate.atStartOfDay().plusDays(1));
+    }
+
+    public void createNewAppointment(int workId, int providerId, int id, LocalDateTime parse) {
+        if (workAvailable(providerId, workId, id, parse))
     }
 }

@@ -8,13 +8,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.eric.appointment.entity.Appointment;
 import com.eric.appointment.entity.ChatMessage;
 import com.eric.appointment.security.UserDetail;
 import com.eric.appointment.service.AppointmentService;
 import com.eric.appointment.service.ExchangeService;
+import com.eric.appointment.service.UserService;
+import com.eric.appointment.service.WorkService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,8 +27,10 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("appointments")
 public class AppointmentController {
     
+    private final UserService userService;
     private final AppointmentService appointmentService;
     private final ExchangeService exchangeService;
+    private final WorkService workService;
 
     @GetMapping("/all")
     public String showAllAppointment(Model model, @AuthenticationPrincipal UserDetail userDetail) {
@@ -60,9 +66,46 @@ public class AppointmentController {
     }
 
     @GetMapping("/new")
-    public String newAppointment(Model model, @AuthenticationPrincipal UserDetail userDetail) {
-        // model.addAttribute("providers", userService.find)
-        return "appointments/newAppointment";
+    public String selectProvider(Model model) {
+        model.addAttribute("providers", userService.getAllProvider());
+        return "appointments/selectProvider";
+    }
+
+    @GetMapping("/new/{provider.id}")
+    public String selectService(@PathVariable("provider.id") int id, Model model) {
+        model.addAttribute("works", workService.getWorksByProviderId(id));
+        model.addAttribute(id);
+        return "appointments/selectService";
+    }
+
+    @GetMapping("/new/{providerId}/{workId}")
+    public String selectDate(@PathVariable("workId") int workId, @PathVariable("providerId") int providerId, Model model) {
+        model.addAttribute(providerId);
+        model.addAttribute("workId", workId);
+        return "appointments/selectDate";
+    }
+
+    @GetMapping("/new/{providerId}/{workId}/{date}")
+    public String newAppointmentSummary(@PathVariable("providerId") int providerId, @PathVariable("workId") int workId, @PathVariable("date") String start, Model model, @AuthenticationPrincipal UserDetail userDetail) {
+        if (!appointmentService.workAvailable(providerId, workId, userDetail.getId(), LocalDateTime.parse(start))) {
+            //model.addAttribute("Time Not available");
+            //redirectAttributes(......);
+            //return "redirect:/appointments/providerId/workId";
+            return "redirect:/appointments/new";
+        }
+
+        model.addAttribute("work", workService.getWorkById(workId));
+        model.addAttribute("provider", userService.getProviderById(providerId));
+        model.addAttribute(providerId);
+        model.addAttribute("start", LocalDateTime.parse(start));
+        model.addAttribute("end", LocalDateTime.parse(start).plusMinutes(workService.getWorkById(workId).getDuration()));
+        return "appointments/appointmentSummary";
+    }
+
+    @PostMapping("/new")
+    public String saveAppointment(@RequestParam("workId") int workId, @RequestParam("providerId") int providerId, @RequestParam("start") String start, @AuthenticationPrincipal UserDetail userDetail) {
+        appointmentService.createNewAppointment(workId, providerId, userDetail.getId(), LocalDateTime.parse(start));
+        return "redirect:/appointment/all";
     }
 
     private String FormatDuration(Duration duration) {

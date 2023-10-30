@@ -90,7 +90,7 @@ public class CustomerController {
             redirectAttributes.addFlashAttribute("changePassword", changePasswordForm);
             return "redirect:/customers/" + userDetail.getId() + "?activeTab=changingPassword";
         }
-        
+        //model.addAttribute("Password Change Successfully");
         userService.updateUserPassword(changePasswordForm);
         return "redirect:/customers/" + userDetail.getId() + "?activeTab=changingPassword";
     }
@@ -102,7 +102,7 @@ public class CustomerController {
             redirectAttributes.addFlashAttribute("user", userForm);
             return "redirect:/customers/" + userForm.getId();
         }
-
+        //model.addAttribute("Profile Change successfully");
         userService.updateUserProfile(userForm);
         return "redirect:/customers/" + userForm.getId();
     }

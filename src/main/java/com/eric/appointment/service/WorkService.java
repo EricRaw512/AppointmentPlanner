@@ -13,14 +13,22 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class WorkService {
     
-    private final WorkRepository WorkRepository;
+    private final WorkRepository workRepository;
 
     public List<Work> getAllWorks() {
-        return WorkRepository.findAll();
+        return workRepository.findAll();
     }
 
     public void deleteWorkById(int id) {
-        WorkRepository.deleteById(id);
+        workRepository.deleteById(id);
+    }
+
+    public List<Work> getWorksByProviderId(int id) {
+        return workRepository.findByProviderId(id);
+    }
+
+    public Work getWorkById(int workId) {
+        return workRepository.findById(workId).orElse(null);
     }
 
 }

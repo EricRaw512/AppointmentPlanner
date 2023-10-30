@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Service;
 
-import com.eric.appointment.dao.AppointmentRepository;
 import com.eric.appointment.entity.Appointment;
 
 import lombok.RequiredArgsConstructor;
@@ -13,10 +12,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ExchangeService {
     
-    private final AppointmentRepository appointmentRepository;
+    private final AppointmentService appointmentService;
 
     public boolean checkIfAllowedForExchange(int userId, int appointmentId) {
-        Appointment appointment = appointmentRepository.findById(appointmentId).orElse(null);
+        Appointment appointment = appointmentService.getAppointmentById(appointmentId);
         return appointment.getStart().minusHours(24).isAfter(LocalDateTime.now());
     }
 
