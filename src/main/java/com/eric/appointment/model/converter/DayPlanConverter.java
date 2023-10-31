@@ -6,13 +6,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
+@Converter
 public class DayPlanConverter implements AttributeConverter<DayPlan, String> {
-    
+
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public DayPlanConverter() {
-        // Configure the ObjectMapper to format the JSON nicely
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
 
@@ -21,7 +22,6 @@ public class DayPlanConverter implements AttributeConverter<DayPlan, String> {
         try {
             return objectMapper.writeValueAsString(attribute);
         } catch (JsonProcessingException e) {
-            // Handle the exception or log an error
             throw new RuntimeException("Error converting DayPlan to JSON", e);
         }
     }
@@ -31,7 +31,6 @@ public class DayPlanConverter implements AttributeConverter<DayPlan, String> {
         try {
             return objectMapper.readValue(dbData, DayPlan.class);
         } catch (JsonProcessingException e) {
-            // Handle the exception or log an error
             throw new RuntimeException("Error converting JSON to DayPlan", e);
         }
     }

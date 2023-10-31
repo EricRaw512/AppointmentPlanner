@@ -2,12 +2,10 @@ package com.eric.appointment.entity;
 
 import java.time.LocalTime;
 
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
-
 import com.eric.appointment.entity.user.Provider;
 import com.eric.appointment.model.DayPlan;
 import com.eric.appointment.model.TimePeriod;
+import com.eric.appointment.model.converter.DayPlanConverter;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -35,31 +33,31 @@ public class WorkingPlan {
     @JoinColumn(name = "id_provider")
     private Provider provider;
 
-    @JdbcTypeCode(SqlTypes.JSON)
+    @Convert(converter = DayPlanConverter.class)
     @Column(name = "monday")
     private DayPlan monday;
 
-    @JdbcTypeCode(SqlTypes.JSON)
+    @Convert(converter = DayPlanConverter.class)
     @Column(name = "tuesday")
     private DayPlan tuesday;
 
-    @JdbcTypeCode(SqlTypes.JSON)
+    @Convert(converter = DayPlanConverter.class)
     @Column(name = "wednesday")
     private DayPlan wednesday;
 
-    @JdbcTypeCode(SqlTypes.JSON)
+    @Convert(converter = DayPlanConverter.class)
     @Column(name = "thursday")
     private DayPlan thursday;
 
-    @JdbcTypeCode(SqlTypes.JSON)
+    @Convert(converter = DayPlanConverter.class)
     @Column(name = "friday")
     private DayPlan friday;
 
-    @JdbcTypeCode(SqlTypes.JSON)
+    @Convert(converter = DayPlanConverter.class)
     @Column(name = "saturday")
     private DayPlan saturday;
 
-    @JdbcTypeCode(SqlTypes.JSON)
+    @Convert(converter = DayPlanConverter.class)
     @Column(name = "sunday")
     private DayPlan sunday;
 
