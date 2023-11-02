@@ -23,6 +23,7 @@ import com.eric.appointment.service.UserService;
 import com.eric.appointment.service.WorkService;
 import com.eric.appointment.service.WorkingPlanService;
 import com.eric.appointment.validator.groups.CreateProvider;
+import com.eric.appointment.validator.groups.CreateUser;
 import com.eric.appointment.validator.groups.UpdateProvider;
 import com.eric.appointment.validator.groups.UpdateUser;
 
@@ -55,7 +56,7 @@ public class ProviderController {
     }
 
     @PostMapping("/new")
-    public String registerCustomer(@Validated(CreateProvider.class) @ModelAttribute("user") UserForm userForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String registerCustomer(@Validated({CreateProvider.class, CreateUser.class}) @ModelAttribute("user") UserForm userForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
     if (bindingResult.hasErrors()) {
         redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.user", bindingResult);
         redirectAttributes.addFlashAttribute("user", userForm);
