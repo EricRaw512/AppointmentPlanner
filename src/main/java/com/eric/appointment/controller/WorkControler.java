@@ -30,7 +30,7 @@ public class WorkControler {
     @GetMapping("/{workId}")
     public String showWorkForm(@PathVariable("workId") int workId, Model model) {
         model.addAttribute("work", workService.getWorkById(workId));
-        return "works/workForm";
+        return "work/workForm";
     }
 
     @GetMapping("/new")

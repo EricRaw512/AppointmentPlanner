@@ -68,7 +68,7 @@ public class ProviderController {
 
     @GetMapping("/{id}")
     public String showCustomerDetail(@PathVariable("id") int id, Model model, @AuthenticationPrincipal UserDetail userDetail, @RequestParam(value = "activeTab", required = false) String activeTab) {
-        if (userDetail.getId() != id && !userDetail.hasRole("ADMIN")) {
+        if (userDetail.getId() != id || !userDetail.hasRole("ADMIN")) {
             throw new org.springframework.security.access.AccessDeniedException("Unauthorized");
         }
 

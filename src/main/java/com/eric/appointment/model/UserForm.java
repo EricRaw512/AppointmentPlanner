@@ -69,7 +69,6 @@ public class UserForm {
     @NotNull(groups = {CreateProvider.class, UpdateProvider.class})
     private List<Work> works;
 
-
     public UserForm(User user) {
         this.setId(user.getId());
         this.setUserName(user.getUserName());
