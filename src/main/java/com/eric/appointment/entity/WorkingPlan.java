@@ -2,13 +2,14 @@ package com.eric.appointment.entity;
 
 import java.time.LocalTime;
 
+import org.hibernate.annotations.Type;
+import io.hypersistence.utils.hibernate.type.json.JsonStringType;
+
 import com.eric.appointment.entity.user.Provider;
 import com.eric.appointment.model.DayPlan;
 import com.eric.appointment.model.TimePeriod;
-import com.eric.appointment.model.converter.DayPlanConverter;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -33,31 +34,31 @@ public class WorkingPlan {
     @JoinColumn(name = "id_provider")
     private Provider provider;
 
-    @Convert(converter = DayPlanConverter.class)
+    @Type(JsonStringType.class)
     @Column(name = "monday")
     private DayPlan monday;
 
-    @Convert(converter = DayPlanConverter.class)
+    @Type(JsonStringType.class)
     @Column(name = "tuesday")
     private DayPlan tuesday;
 
-    @Convert(converter = DayPlanConverter.class)
+    @Type(JsonStringType.class)
     @Column(name = "wednesday")
     private DayPlan wednesday;
 
-    @Convert(converter = DayPlanConverter.class)
+    @Type(JsonStringType.class)
     @Column(name = "thursday")
     private DayPlan thursday;
 
-    @Convert(converter = DayPlanConverter.class)
+    @Type(JsonStringType.class)
     @Column(name = "friday")
     private DayPlan friday;
 
-    @Convert(converter = DayPlanConverter.class)
+    @Type(JsonStringType.class)
     @Column(name = "saturday")
     private DayPlan saturday;
 
-    @Convert(converter = DayPlanConverter.class)
+    @Type(JsonStringType.class)
     @Column(name = "sunday")
     private DayPlan sunday;
 
@@ -96,9 +97,9 @@ public class WorkingPlan {
         WorkingPlan wp = new WorkingPlan();
         LocalTime defaultStartHour = LocalTime.parse("06:00");
         LocalTime defaultEndHour = LocalTime.parse("18:00");
-        TimePeriod defaultWorkingPeroid = new TimePeriod(defaultStartHour, defaultEndHour);
+        TimePeriod defaultWorkingPeriod = new TimePeriod(defaultStartHour, defaultEndHour);
         DayPlan defaultDayPlan = new DayPlan();
-        defaultDayPlan.setWorkingPeriod(defaultWorkingPeroid);
+        defaultDayPlan.setWorkingPeriod(defaultWorkingPeriod);
         wp.setMonday(defaultDayPlan);
         wp.setTuesday(defaultDayPlan);
         wp.setWednesday(defaultDayPlan);

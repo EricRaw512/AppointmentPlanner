@@ -102,14 +102,14 @@
 			<version>0.54</version>
 		</dependency>
 		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>2.15.3</version>
+			<groupId>io.hypersistence</groupId>
+			<artifactId>hypersistence-utils-hibernate-62</artifactId>
+			<version>3.6.0</version>
 		</dependency>
 		<dependency>
-			<groupId>com.fasterxml.jackson.datatype</groupId>
-			<artifactId>jackson-datatype-jsr310</artifactId>
-			<version>2.15.3</version>
+			<groupId>com.fasterxml.jackson.module</groupId>
+			<artifactId>jackson-module-jakarta-xmlbind-annotations</artifactId>
+			<version>2.16.0-rc1</version>
 		</dependency>
 	</dependencies>
 
