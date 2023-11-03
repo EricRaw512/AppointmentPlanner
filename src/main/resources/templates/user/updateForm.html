@@ -136,8 +136,8 @@
                             <label>Works:</label>
                             <ul>
                                 <li th:each="work : ${allWorks}">
-                                    <input type="checkbox" th:field="*{works}" th:value="${work.id}" />
-                                    <label th:for="${#ids.prev('works')}" th:classappend="${work.targetCustomer=='retail'} ? text-primary : text-info" th:text="${work.name}">French lesson</label>
+                                    <input type="checkbox" th:field="*{works}" th:value="${work.id}"/>
+                                    <label th:for="${#ids.prev('works')}" th:classappend="text-primary" th:text="${work.name}">French lesson</label>
                                 </li>
                             </ul>
                         </div>

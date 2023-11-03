@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("works")
-public class WorkControler {
+public class WorkController {
     
     private final WorkService workService;
 
