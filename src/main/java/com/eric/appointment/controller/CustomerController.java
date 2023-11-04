@@ -36,7 +36,7 @@ public class CustomerController {
     @GetMapping("/all")
     public String showAllCustomers(Model model) {
         model.addAttribute("customers", userService.getAllCustomers());
-        return "users/listCustomers";
+        return "user/listCustomers";
     }
     
     @GetMapping("/new/customer")
