@@ -28,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AppointmentService {
     
-    private final int NUMBER_OF_ALLOWED_CANCELLATIONS_PER_MONTH = 1;
+    private final int NUMBER_OF_ALLOWED_CANCELLATIONS_PER_MONTH = 2;
     private final UserService userService;
     private final AppointmentRepository appointmentRepository;
     private final WorkService workService;
