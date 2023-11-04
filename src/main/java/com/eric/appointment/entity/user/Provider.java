@@ -33,7 +33,7 @@ public class Provider extends User{
 
     @ManyToMany
     @JoinTable(
-        name = "work_providers", 
+        name = "works_providers", 
         joinColumns = @JoinColumn(name = "id_user"), 
         inverseJoinColumns = @JoinColumn(name = "id_work")
     )
@@ -53,5 +53,10 @@ public class Provider extends User{
     public void update(UserForm userform) {
         super.update(userform);
         this.setWorks(userform.getWorks());
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

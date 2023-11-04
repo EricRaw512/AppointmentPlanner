@@ -69,7 +69,6 @@ public class ProviderController {
     @GetMapping("/{id}")
     public String showCustomerDetail(@PathVariable("id") int id, Model model, @AuthenticationPrincipal UserDetail userDetail, @RequestParam(value = "activeTab", required = false) String activeTab) {
         if (userDetail.getId() != id && !userDetail.hasRole("ADMIN")) {
-            System.out.println(userDetail.hasRole("ADMIN"));
             throw new org.springframework.security.access.AccessDeniedException("Unauthorized");
         }
 
@@ -96,7 +95,6 @@ public class ProviderController {
             redirectAttributes.addFlashAttribute("changePassword", changePasswordForm);
             return "redirect:/providers/" + userDetail.getId() + "?activeTab=changingPassword";
         }
-        
         userService.updateProviderPassword(changePasswordForm);
         return "redirect:/providers/" + userDetail.getId() + "?activeTab=changingPassword";
     }

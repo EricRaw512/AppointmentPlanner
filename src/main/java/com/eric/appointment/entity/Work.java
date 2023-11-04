@@ -2,12 +2,10 @@ package com.eric.appointment.entity;
 
 import java.util.List;
 
-import com.eric.appointment.entity.user.User;
+import com.eric.appointment.entity.user.Provider;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -36,11 +34,11 @@ public class Work extends BaseEntity{
     @Column(name =  "editable")
     private boolean editable;
 
-    @ManyToMany
-    @JoinTable(
-        name = "works_providers", 
-        joinColumns = @JoinColumn(name = "id_work"), 
-        inverseJoinColumns = @JoinColumn(name = "id_user")
-    )
-    private List<User> providers;
+    @ManyToMany(mappedBy = "works")
+    private List<Provider> providers;
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

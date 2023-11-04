@@ -31,11 +31,11 @@ public class UserForm {
     @NotBlank(groups = CreateUser.class)
     private String userName;
 
-    @Size(groups = {CreateUser.class, UpdateUser.class}, min = 5, max = 15, message = "Password should have 5-15 letters")
-    @NotBlank(groups = {CreateUser.class, UpdateUser.class})
+    @Size(groups = CreateUser.class, min = 5, max = 15, message = "Password should have 5-15 letters")
+    @NotBlank(groups = CreateUser.class)
     private String password;
 
-    @NotBlank(groups = {CreateUser.class, UpdateUser.class})
+    @NotBlank(groups = CreateUser.class)
     private String matchingPassword;
 
     @NotBlank(message = "First name cannot be empty", groups = {CreateUser.class, UpdateUser.class})
