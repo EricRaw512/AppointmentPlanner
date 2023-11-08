@@ -80,7 +80,7 @@ public class AppointmentController {
 
     @GetMapping("/new/{providerId}/{workId}")
     public String selectDate(@PathVariable("workId") int workId, @PathVariable("providerId") int providerId, Model model) {
-        model.addAttribute(providerId);
+        model.addAttribute("providerId", providerId);
         model.addAttribute("workId", workId);
         return "appointments/selectDate";
     }

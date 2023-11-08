@@ -119,7 +119,7 @@ public class AppointmentService {
         return getAvailableHours(providerId, workId, customerId, start.toLocalDate()).contains(timePeriod);
     }
 
-    private List<TimePeriod> getAvailableHours(int providerId, int workId, int customerId, LocalDate localDate) {
+    public List<TimePeriod> getAvailableHours(int providerId, int workId, int customerId, LocalDate localDate) {
         Provider provider = userService.getProviderById(providerId);
         WorkingPlan workingPlan = provider.getWorkingPlan();
         DayPlan selectedDay = workingPlan.getDay(localDate.getDayOfWeek().toString().toLowerCase());

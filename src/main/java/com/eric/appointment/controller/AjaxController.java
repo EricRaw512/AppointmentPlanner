@@ -2,6 +2,7 @@ package com.eric.appointment.controller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +26,9 @@ public class AjaxController {
     @GetMapping("/availableHours/{providerId}/{workId}/{date}")
     public List<AppointmentRegisterForm> getAvailableHours(@PathVariable("providerId") int providerId, @PathVariable("workId") int workId, @PathVariable("date") String date, @AuthenticationPrincipal UserDetail userDetail) {
         LocalDate localDate = LocalDate.parse(date);
-        return null;
-        // return appointmentService.getAvailableHours(providerId, workId, userDetail.getId() ,localDate);
+        return appointmentService.getAvailableHours(providerId, workId, userDetail.getId() ,localDate)
+                .stream()
+                .map(timePeriod -> new AppointmentRegisterForm(workId, providerId, timePeriod.getStart().atDate(localDate), timePeriod.getEnd().atDate(localDate)))
+                .collect(Collectors.toList());
     }
 }
