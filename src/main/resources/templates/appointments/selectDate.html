@@ -45,11 +45,8 @@
                             year: 'numeric',
                             month: '2-digit',
                             day: '2-digit'
-                        }).replace(/\//g, '-');
-                        console.log(startDate);
-                        console.log(fetchInfo.start);
+                        }).replace(/\//g, '-').split('-').reverse().join('-');
                         let url = '/api/availableHours/' + providerId + '/' + workId + '/' + startDate.toString();
-                        console.log(url);
                         $.ajax({
                             url: url,
                             data: {},

@@ -26,7 +26,6 @@ public class AjaxController {
     @GetMapping("/availableHours/{providerId}/{workId}/{date}")
     public List<AppointmentRegisterForm> getAvailableHours(@PathVariable("providerId") int providerId, @PathVariable("workId") int workId, @PathVariable("date") String date, @AuthenticationPrincipal UserDetail userDetail) {
         LocalDate localDate = LocalDate.parse(date);
-        System.out.println(localDate);
         return appointmentService.getAvailableHours(providerId, workId, userDetail.getId() ,localDate)
                 .stream()
                 .map(timePeriod -> new AppointmentRegisterForm(workId, providerId, timePeriod.getStart().atDate(localDate), timePeriod.getEnd().atDate(localDate)))
