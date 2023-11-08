@@ -15,63 +15,61 @@
 </div>
 </div>
 
-<script th:inline="javascript">
-
-
-    $(function () {
-        $('#calendar').fullCalendar({
-            defaultView: 'listDay',
+<script th:inline="javascript" type="module">
+    document.addEventListener('DOMContentLoaded', function() {
+        let providerId = /*[[${providerId}]]*/ -1;
+        let workId = /*[[${workId}]]*/ -1;
+        let calendarEl = document.getElementById('calendar');
+        let calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'listDay',
             contentHeight: "auto",
-            noEventsMessage: 'Unavailable',
-            validRange: function (nowDate) {
-                return {
-                    start: nowDate.clone().add(1, 'days')
-                };
-            },
-            header: {
-                left: 'title',
-                center: '',
-                right: 'today prev,next'
-            },
+            noEventsContent: 'Unavailable',
+            headerToolbar: {
+                  left: 'title',
+                  center: '',
+                  right: 'today prev,next'
+              },
             allDaySlot: false,
-            minTime: "06:00:00",
-            maxTime: "21:00:00",
+            slotMinTime: "06:00:00",
+            slotMaxTime: "21:00:00",
             firstDay: 2,
-            timeFormat: 'H:mm', // uppercase H for 24-hour clock
+            eventTimeFormat : {
+                hour: 'numeric',
+                minute: '2-digit',
+                meridiem: false
+            },  
             eventSources: [
-
-                // your event source
                 {
-                    events: function (start, end, timezone, callback) {
-                        /*[+
-                        var url = "/api/availableHours/" + [[${providerId}]] + "/" + [[${workId}]] + "/" + start.format('YYYY-MM-DD').toString();
-                        +]*/
+                    events: function(fetchInfo, successCallback, failureCallback ) {
+                        let startDate = FullCalendar.formatDate(fetchInfo.start, {
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit'
+                        }).replace(/\//g, '-');
+                        console.log(startDate);
+                        console.log(fetchInfo.start);
+                        let url = '/api/availableHours/' + providerId + '/' + workId + '/' + startDate.toString();
                         console.log(url);
                         $.ajax({
                             url: url,
                             data: {},
                             success: function (doc) {
 
-                                var x = doc.map(function (entry) {
-                                    /*[+
-                                    var URL = "/appointments/new/" + [[${providerId}]] + "/" + [[${workId}]] + "/" + entry.start;
-                                    +]*/
+                                let x = doc.map(function (entry) {
+                                    let URL = '/appointments/new/' + providerId + '/' + workId + '/' + entry.start;
                                     entry.url = URL;
-                                    return entry;   
+                                    return entry;
                                 });
-                                callback(x);
+                                successCallback(x);
                             }
                         });
                     },
                     color: 'white',   // an option!
                     textColor: 'black' // an option!
-                }
-            ]
-
-        })
-
+                }]
+        });
+        calendar.render();
     });
-
 
 </script>
 </body>
