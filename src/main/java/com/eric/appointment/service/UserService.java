@@ -46,7 +46,6 @@ public class UserService {
         return customerRepository.findAll();
     }
 
-    @PreAuthorize("#id == principal.id or hasRole('ADMIN')")
     public Customer getCustomerById(int id) {
         return customerRepository.findById(id).orElseThrow
             (() -> new UsernameNotFoundException("Customer Not Found"));

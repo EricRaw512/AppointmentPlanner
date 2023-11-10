@@ -129,8 +129,8 @@
             <div class="col-md-5">
 
                 <div class="chatbody">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading top-bar">
+                    <div class="card card-primary">
+                        <div class="card-heading top-bar">
                             <div class="col-md-8 col-xs-8">
                                 <p>
                                     Appointment chat with
@@ -140,13 +140,13 @@
                             </div>
                         </div>
 
-                        <div class="panel-body">
-                            <div th:each="chatMessage : ${appointment.chatMessages}" class="row msg_container base_receive">
+                        <div class="card-body">
+                            <div th:each="chatMessage : ${appointment.chatMessages}" class="row d-flex justify-content-start align-items-center msg-container">
                                 <div class="col-md-12 col-xs-12">
-                                    <div class="messages msg_receive">
+                                    <div class="messages">
                                         <p th:text="${chatMessage.message}">message</p>
                                         <time datetime="2009-11-13T20:00"><span
-                                                th:text="${chatMessage.sender.firstName + ' ' + chatMessage.sender.lastName}">Sender</span> • <span
+                                                th:text="${chatMessage.sender.firstName + ' ' + chatMessage.sender.lastName}">Sender</span><span
                                                 th:text="${#temporals.format(chatMessage.createdAt, 'dd-MM-yyyy HH:mm')}"></span></time>
                                     </div>
                                 </div>
@@ -156,14 +156,11 @@
                         <form th:action="@{/appointments/messages/new}" th:object="${chatMessage}" method='POST'>
                             <div class="input-group mb-3">
                                 <input type="hidden" name="appointmentId" th:value="${appointment.id}">
-                                <input type="text" class="form-control" th:field="*{message}" placeholder="Write your message here..." aria-label="Recipient's username" aria-describedby="basic-addon2">
-                                <div class="input-group-append">
+                                <input type="text" class="form-control" th:field="*{message}" placeholder="Write your message here..." aria-label="Recipient's username">
                                     <button class="btn btn-outline-secondary" type="submit">Send</button>
-                                </div>
                             </div>
                         </form>
-
-
+                        
                     </div>
 
                 </div>
