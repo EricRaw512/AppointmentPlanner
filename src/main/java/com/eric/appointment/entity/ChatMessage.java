@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Entity
-@Table(name = "messsages")
+@Table(name = "messages")
 public class ChatMessage extends BaseEntity implements Comparable<ChatMessage>{
     
     @Column(name = "create_at")

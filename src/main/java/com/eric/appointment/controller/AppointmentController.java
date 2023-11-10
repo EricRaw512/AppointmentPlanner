@@ -34,11 +34,11 @@ public class AppointmentController {
 
     @GetMapping("/all")
     public String showAllAppointment(Model model, @AuthenticationPrincipal UserDetail userDetail) {
-        if (userDetail.hasRole("ROLE_CUSTOMER")) {
+        if (userDetail.hasRole("CUSTOMER")) {
             model.addAttribute("appointments", appointmentService.getAppointmentByCustomerId(userDetail.getId()));
-        } else if (userDetail.hasRole("ROLE_PROVIDER")) {
+        } else if (userDetail.hasRole("PROVIDER")) {
             model.addAttribute("appointments", appointmentService.getAppointmentByProviderId(userDetail.getId()));
-        } else if (userDetail.hasRole("ROLE_ADMIN")) {
+        } else if (userDetail.hasRole("ADMIN")) {
             model.addAttribute("appointments", appointmentService.getAllAppointments());
         }
 
@@ -50,16 +50,16 @@ public class AppointmentController {
         Appointment appointment = appointmentService.getAppointmentById(id);
         model.addAttribute("appointment", appointment);
         model.addAttribute("chatMessage", new ChatMessage());
-        boolean allowedToRequestRejection = appointmentService.isCustomerAllowedToRejectAppointment(userDetail.getId(), id);
-        boolean allowedToAcceptRejection = appointmentService.isProviderAllowedToAcceptRejection(userDetail.getId(), id);
-        boolean allowedToExchange = exchangeService.checkIfAllowedForExchange(userDetail.getId(), id);
+        boolean allowedToRequestRejection = appointmentService.isCustomerAllowedToRejectAppointment(appointment.getCustomer().getId(), id);
+        boolean allowedToAcceptRejection = appointmentService.isProviderAllowedToAcceptRejection(appointment.getProvider().getId(), id);
+        boolean allowedToExchange = exchangeService.checkIfAllowedForExchange(id);
         model.addAttribute("allowedToRequestRejection", allowedToRequestRejection);
         model.addAttribute("allowedToAcceptRejection", allowedToAcceptRejection);
         model.addAttribute("allowedToExchange", allowedToExchange);
         if (allowedToRequestRejection) {
             model.addAttribute("remainingTime", FormatDuration(Duration.between(LocalDateTime.now(), appointment.getEnd().plusDays(1))));
         }
-        String cancelNotAllowedReason = appointmentService.getCancelNotAllowedReason(userDetail.getId(), id);
+        String cancelNotAllowedReason = appointmentService.getCancelNotAllowedReason(appointment.getCustomer().getId(), id);
         model.addAttribute("allowedToCancel", cancelNotAllowedReason == null);
         model.addAttribute("cancelNotAllowedReason", cancelNotAllowedReason);
         return "appointments/appointmentDetail";
@@ -88,9 +88,6 @@ public class AppointmentController {
     @GetMapping("/new/{providerId}/{workId}/{date}")
     public String newAppointmentSummary(@PathVariable("providerId") int providerId, @PathVariable("workId") int workId, @PathVariable("date") String start, Model model, @AuthenticationPrincipal UserDetail userDetail) {
         if (!appointmentService.workAvailable(providerId, workId, userDetail.getId(), LocalDateTime.parse(start))) {
-            //model.addAttribute("Time Not available");
-            //redirectAttributes(......);
-            //return "redirect:/appointments/providerId/workId";
             return "redirect:/appointments/new";
         }
 
@@ -105,7 +102,7 @@ public class AppointmentController {
     @PostMapping("/new")
     public String saveAppointment(@RequestParam("workId") int workId, @RequestParam("providerId") int providerId, @RequestParam("start") String start, @AuthenticationPrincipal UserDetail userDetail) {
         appointmentService.createNewAppointment(workId, providerId, userDetail.getId(), LocalDateTime.parse(start));
-        return "redirect:/appointment/all";
+        return "redirect:/appointments/all";
     }
 
     private String FormatDuration(Duration duration) {

@@ -20,8 +20,8 @@
                 </tr>
                 <tr th:each="work : ${works}">
                     <td><span th:text="${work.name}"> work name </span></td>
-                    <td><span th:text="${work.duration }"> 30 min </span></td>
-                    <td><span th:text="${work.price}"> 3 </span></td>
+                    <td><span th:text="${work.duration + ' min' }"> 30 min </span></td>
+                    <td><span th:text="'Rp ' + ${#numbers.formatDecimal(work.price, 0, 'POINT', 2, 'COMMA')}"> 3 </span></td>
                     <td><a class="btn btn-primary"
                            th:href="@{'/appointments/new/'+${providerId} +'/'+ ${work.id}}"
                            role="button">Select</a>

@@ -41,12 +41,13 @@
             eventSources: [
                 {
                     events: function(fetchInfo, successCallback, failureCallback ) {
-                        let startDate = FullCalendar.formatDate(fetchInfo.start, {
+                        let dateComponents = FullCalendar.formatDate(fetchInfo.start, {
                             year: 'numeric',
                             month: '2-digit',
                             day: '2-digit'
-                        }).replace(/\//g, '-').split('-').reverse().join('-');
-                        let url = '/api/availableHours/' + providerId + '/' + workId + '/' + startDate.toString();
+                        }).split('/');
+                        let startDate = `${dateComponents[2]}-${dateComponents[0]}-${dateComponents[1]}`;
+                        let url = '/api/availableHours/' + providerId + '/' + workId + '/' + startDate;
                         $.ajax({
                             url: url,
                             data: {},

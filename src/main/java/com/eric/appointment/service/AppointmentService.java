@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +34,7 @@ public class AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final WorkService workService;
 
-    @PreAuthorize("#Id == principal.id")
+    @PreAuthorize("#id == principal.id")
     public List<Appointment> getAppointmentByCustomerId(int id) {
         return appointmentRepository.findByCustomer_Id(id);
     }
@@ -48,10 +49,10 @@ public class AppointmentService {
         return appointmentRepository.findAll();
     }
 
-    @PreAuthorize("returnObject.provider.id == principal.id or returnObject.customer.id == principal.id or hasRole('ADMIN')")
+    @PostAuthorize("returnObject.provider.id == principal.id or returnObject.customer.id == principal.id or hasRole('ADMIN')")
     public Appointment getAppointmentById(int id) {
-    return appointmentRepository.findById(id)
-            .orElseThrow(AppointmentNotFoundException::new);
+        return appointmentRepository.findById(id)
+                .orElseThrow(AppointmentNotFoundException::new);
     }
 
     public int getNumberOfScheduledAppointments(int id) {

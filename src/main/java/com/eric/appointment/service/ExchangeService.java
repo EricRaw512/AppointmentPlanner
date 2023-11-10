@@ -14,7 +14,7 @@ public class ExchangeService {
     
     private final AppointmentService appointmentService;
 
-    public boolean checkIfAllowedForExchange(int userId, int appointmentId) {
+    public boolean checkIfAllowedForExchange(int appointmentId) {
         Appointment appointment = appointmentService.getAppointmentById(appointmentId);
         return appointment.getStart().minusHours(24).isAfter(LocalDateTime.now());
     }

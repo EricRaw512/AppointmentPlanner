@@ -55,7 +55,7 @@
                     <tr th:if="${appointment.status.name()=='CANCELED'}">
                         <td><b>canceled by</b></td>
                         <td><span
-                                th:text="${appointment.canceler.firstName+' '+appointment.canceler.lastName}">Canceller
+                                th:text="${appointment.canceler.firstName + ' ' + appointment.canceler.lastName}">Canceller
                             name</span>
                         </td>
 
@@ -93,7 +93,7 @@
 
                     <tr>
                         <td><b>price</b></td>
-                        <td><span th:text="${appointment.work.price}"> 50 </span> pln</td>
+                        <td><span th:text="'Rp ' + ${#numbers.formatDecimal(work.price, 0, 'POINT', 2, 'COMMA')}"> 50 </span></td>
                     </tr>
                     <tr th:if="${appointment.status.name()=='INVOICED'}">
                         <td><b>invoice</b></td>
@@ -140,7 +140,7 @@
                             </div>
                         </div>
 
-                        <div class="panel-body msg_container_base">
+                        <div class="panel-body">
                             <div th:each="chatMessage : ${appointment.chatMessages}" class="row msg_container base_receive">
                                 <div class="col-md-12 col-xs-12">
                                     <div class="messages msg_receive">

@@ -1,6 +1,7 @@
 package com.eric.appointment.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -8,12 +9,14 @@ import com.eric.appointment.entity.user.Customer;
 import com.eric.appointment.entity.user.Provider;
 import com.eric.appointment.entity.user.User;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -56,6 +59,12 @@ public class Appointment extends BaseEntity implements Comparable<Appointment>{
     @ManyToOne
     @JoinColumn(name = "id_work")
     private Work work;
+
+    @OneToOne(mappedBy = "requested", cascade = {CascadeType.ALL})
+    private ExchangeRequest exchangeRequest;
+
+    @OneToMany(mappedBy = "appointment")
+    private List<ChatMessage> chatMessages;
 
     @Override
     public int compareTo(Appointment o) {
