@@ -7,6 +7,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -103,6 +104,12 @@ public class AppointmentController {
     public String saveAppointment(@RequestParam("workId") int workId, @RequestParam("providerId") int providerId, @RequestParam("start") String start, @AuthenticationPrincipal UserDetail userDetail) {
         appointmentService.createNewAppointment(workId, providerId, userDetail.getId(), LocalDateTime.parse(start));
         return "redirect:/appointments/all";
+    }
+
+    @PostMapping("/messages/new")
+      public String addNewChatMessage(@ModelAttribute("chatMessage") ChatMessage chatMessage, @RequestParam("appointmentId") int appointmentId, @AuthenticationPrincipal UserDetail userDetail) {
+        appointmentService.addMessageToAppointmentChat(appointmentId, userDetail.getId(), chatMessage);
+        return "redirect:/appointments/" + appointmentId;
     }
 
     private String FormatDuration(Duration duration) {

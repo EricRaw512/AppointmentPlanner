@@ -1,6 +1,6 @@
 package com.eric.appointment.entity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.eric.appointment.entity.user.User;
 
@@ -19,7 +19,7 @@ import lombok.EqualsAndHashCode;
 public class ChatMessage extends BaseEntity implements Comparable<ChatMessage>{
     
     @Column(name = "create_at")
-    private LocalDate createAt;
+    private LocalDateTime createdAt;
 
     @Column(name = "message")
     private String message;
@@ -34,6 +34,6 @@ public class ChatMessage extends BaseEntity implements Comparable<ChatMessage>{
 
     @Override
     public int compareTo(ChatMessage o) {
-        return this.getCreateAt().compareTo(o.getCreateAt());
+        return this.getCreatedAt().compareTo(o.getCreatedAt());
     }
 }

@@ -93,7 +93,7 @@
 
                     <tr>
                         <td><b>price</b></td>
-                        <td><span th:text="'Rp ' + ${#numbers.formatDecimal(work.price, 0, 'POINT', 2, 'COMMA')}"> 50 </span></td>
+                        <td><span th:text="'Rp ' + ${#numbers.formatDecimal(appointment.work.price, 0, 'POINT', 2, 'COMMA')}"> 50 </span></td>
                     </tr>
                     <tr th:if="${appointment.status.name()=='INVOICED'}">
                         <td><b>invoice</b></td>
@@ -146,7 +146,7 @@
                                     <div class="messages msg_receive">
                                         <p th:text="${chatMessage.message}">message</p>
                                         <time datetime="2009-11-13T20:00"><span
-                                                th:text="${chatMessage.author.firstName}">author</span> • <span
+                                                th:text="${chatMessage.sender.firstName + ' ' + chatMessage.sender.lastName}">Sender</span> • <span
                                                 th:text="${#temporals.format(chatMessage.createdAt, 'dd-MM-yyyy HH:mm')}"></span></time>
                                     </div>
                                 </div>

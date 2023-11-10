@@ -12,8 +12,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.eric.appointment.dao.AppointmentRepository;
+import com.eric.appointment.dao.ChatMessageRepository;
 import com.eric.appointment.entity.Appointment;
 import com.eric.appointment.entity.AppointmentStatus;
+import com.eric.appointment.entity.ChatMessage;
 import com.eric.appointment.entity.Work;
 import com.eric.appointment.entity.WorkingPlan;
 import com.eric.appointment.entity.user.Provider;
@@ -33,6 +35,7 @@ public class AppointmentService {
     private final UserService userService;
     private final AppointmentRepository appointmentRepository;
     private final WorkService workService;
+    private final ChatMessageRepository chatMessageRepository;
 
     @PreAuthorize("#id == principal.id")
     public List<Appointment> getAppointmentByCustomerId(int id) {
@@ -192,5 +195,17 @@ public class AppointmentService {
         appointment.setStart(start);
         appointment.setEnd(start.plusMinutes(work.getDuration()));
         appointmentRepository.save(appointment);
+    }
+
+    public void addMessageToAppointmentChat(int appointmentId, int userId, ChatMessage chatMessage) {
+        Appointment appointment = getAppointmentById(appointmentId);
+        if (appointment.getProvider().getId() != userId && appointment.getCustomer().getId() != userId) {
+            throw new org.springframework.security.access.AccessDeniedException("Unauthorized");
+        }
+        
+        chatMessage.setSender(userService.getUserById(userId));
+        chatMessage.setAppointment(appointment);
+        chatMessage.setCreatedAt(LocalDateTime.now());
+        chatMessageRepository.save(chatMessage);
     } 
 }
