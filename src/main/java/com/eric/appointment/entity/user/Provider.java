@@ -1,6 +1,7 @@
 package com.eric.appointment.entity.user;
 
 import java.util.List;
+import java.util.Objects;
 
 import com.eric.appointment.entity.Appointment;
 import com.eric.appointment.entity.Work;
@@ -16,12 +17,12 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "providers")
@@ -58,5 +59,19 @@ public class Provider extends User{
     @Override
     public String toString() {
         return super.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Provider provider = (Provider) o;
+        return provider.getId().equals(this.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(appointments, works, workingPlan);
     }
 }

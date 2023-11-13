@@ -73,12 +73,12 @@
                 "initComplete": function () {
                     this.api().columns([1]).every(function () {
                         $("div.toolbar").html('<div id="my_filter" style="margin-bottom: 10px">Status filter: </div>');
-                        var column = this;
+                        let column = this;
                         column.search('^SCHEDULED$', true, false).draw();
-                        var select = $('<select name="statuses"><option value="SCHEDULED">SCHEDULED</option></select>')
+                        let select = $('<select name="statuses"><option value="SCHEDULED">SCHEDULED</option></select>')
                             .appendTo('#my_filter')
                             .on('change', function () {
-                                var searchString = $(this).val();
+                                let searchString = $(this).val();
                                 searchString = searchString.replace('<span>', '');
                                 searchString = searchString.replace('</span>', '');
                                 var val = $.fn.dataTable.util.escapeRegex(searchString);

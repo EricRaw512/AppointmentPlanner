@@ -16,10 +16,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "working_plan")
 @NoArgsConstructor
@@ -35,31 +37,31 @@ public class WorkingPlan {
     private Provider provider;
 
     @Type(JsonStringType.class)
-    @Column(name = "monday")
+    @Column(columnDefinition = "json", name = "monday")
     private DayPlan monday;
 
     @Type(JsonStringType.class)
-    @Column(name = "tuesday")
+    @Column(columnDefinition = "json", name = "tuesday")
     private DayPlan tuesday;
 
     @Type(JsonStringType.class)
-    @Column(name = "wednesday")
+    @Column(columnDefinition = "json", name = "wednesday")
     private DayPlan wednesday;
 
     @Type(JsonStringType.class)
-    @Column(name = "thursday")
+    @Column(columnDefinition = "json", name = "thursday")
     private DayPlan thursday;
 
     @Type(JsonStringType.class)
-    @Column(name = "friday")
+    @Column(columnDefinition = "json", name = "friday")
     private DayPlan friday;
 
     @Type(JsonStringType.class)
-    @Column(name = "saturday")
+    @Column(columnDefinition = "json", name = "saturday")
     private DayPlan saturday;
 
     @Type(JsonStringType.class)
-    @Column(name = "sunday")
+    @Column(columnDefinition = "json", name = "sunday")
     private DayPlan sunday;
 
     public DayPlan getDay(String day) {

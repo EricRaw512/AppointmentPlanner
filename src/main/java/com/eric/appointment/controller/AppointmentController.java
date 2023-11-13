@@ -112,6 +112,17 @@ public class AppointmentController {
         return "redirect:/appointments/" + appointmentId;
     }
 
+    @PostMapping("/cancel")
+    public String cancelAppointment(@RequestParam("appointmentId") int appointmentId, @AuthenticationPrincipal UserDetail userDetail) {
+        appointmentService.cancelUserAppointmentById(appointmentId, userDetail.getId());
+        return "redirect:/appointments/all";
+    }
+
+    @PostMapping("/exchange/{appointmentId}")
+    public String setExchange(@PathVariable("appointmentId") int appointmentId , @AuthenticationPrincipal UserDetail userDetail) {
+        return "";
+    }
+
     private String FormatDuration(Duration duration) {
         long hours = duration.toHours();
         long minutes = duration.minusHours(hours).toMinutes();

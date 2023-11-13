@@ -207,5 +207,18 @@ public class AppointmentService {
         chatMessage.setAppointment(appointment);
         chatMessage.setCreatedAt(LocalDateTime.now());
         chatMessageRepository.save(chatMessage);
+    }
+
+    public void cancelUserAppointmentById(int appointmentId, int userId) {
+        Appointment appointment = getAppointmentById(appointmentId);
+        if (appointment == null) {
+            throw new org.springframework.security.access.AccessDeniedException("Unauthorized");
+        }
+
+        appointment.setStatus(AppointmentStatus.CANCELED);
+        User canceler = userService.getUserById(userId);
+        appointment.setCanceler(canceler);
+        appointment.setCanceledAt(LocalDateTime.now());
+        appointmentRepository.save(appointment);
     } 
 }

@@ -70,4 +70,9 @@ public class Appointment extends BaseEntity implements Comparable<Appointment>{
     public int compareTo(Appointment o) {
         return this.getStart().compareTo(o.getStart());
     }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }
