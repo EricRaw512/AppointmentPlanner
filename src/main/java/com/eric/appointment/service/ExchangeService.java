@@ -11,6 +11,7 @@ import com.eric.appointment.entity.Appointment;
 import com.eric.appointment.entity.AppointmentStatus;
 import com.eric.appointment.entity.ExchangeRequest;
 import com.eric.appointment.entity.ExchangeRequestStatus;
+import com.eric.appointment.entity.user.Customer;
 
 import lombok.RequiredArgsConstructor;
 
@@ -59,9 +60,26 @@ public class ExchangeService {
         return true;
     }
 
-    public void acceptExchange(int exchangeId, int id) {
+    public void acceptExchange(int exchangeId, int userId) {
+        ExchangeRequest exchangeRequest = exchangeRequestRepository.findById(exchangeId).orElse(null);
+        Appointment requestor = exchangeRequest.getRequestor();
+        Appointment requested = exchangeRequest.getRequested();
+        Customer tempCustomer = requestor.getCustomer();
+        requestor.setStatus(AppointmentStatus.SCHEDULED);
+        exchangeRequest.setExchangeStatus(ExchangeRequestStatus.ACCEPTED);
+        requestor.setCustomer(requested.getCustomer());
+        requested.setCustomer(tempCustomer);
+        exchangeRequestRepository.save(exchangeRequest);
+        appointmentRepository.save(requested);
+        appointmentRepository.save(requestor);
     }
 
     public void rejectExchange(int exchangeId, int id) {
+        ExchangeRequest exchangeRequest = exchangeRequestRepository.findById(exchangeId).orElse(null);
+        Appointment requestor = exchangeRequest.getRequestor();
+        exchangeRequest.setExchangeStatus(ExchangeRequestStatus.REJECTED);
+        requestor.setStatus(AppointmentStatus.SCHEDULED);
+        exchangeRequestRepository.save(exchangeRequest);
+        appointmentRepository.save(requestor);
     }
 }
