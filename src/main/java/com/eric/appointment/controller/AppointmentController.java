@@ -118,11 +118,6 @@ public class AppointmentController {
         return "redirect:/appointments/all";
     }
 
-    @PostMapping("/exchange/{appointmentId}")
-    public String setExchange(@PathVariable("appointmentId") int appointmentId , @AuthenticationPrincipal UserDetail userDetail) {
-        return "";
-    }
-
     private String FormatDuration(Duration duration) {
         long hours = duration.toHours();
         long minutes = duration.minusHours(hours).toMinutes();

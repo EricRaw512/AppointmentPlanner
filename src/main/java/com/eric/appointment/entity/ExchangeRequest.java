@@ -18,10 +18,6 @@ import lombok.NoArgsConstructor;
 @Entity
 public class ExchangeRequest extends BaseEntity{
     
-    @Enumerated(EnumType.STRING)
-    @Column(name = "exchange_status")
-    private ExchangeRequestStatus exchangeStatus;
-
     @OneToOne
     @JoinColumn(name = "id_appointment_requestor")
     private Appointment requestor;
@@ -29,4 +25,8 @@ public class ExchangeRequest extends BaseEntity{
     @OneToOne
     @JoinColumn(name = "id_appointment_requested")
     private Appointment requested;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "exchange_status")
+    private ExchangeRequestStatus exchangeStatus;
 }
