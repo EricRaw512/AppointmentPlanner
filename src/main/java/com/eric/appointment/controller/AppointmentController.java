@@ -17,7 +17,6 @@ import com.eric.appointment.entity.Appointment;
 import com.eric.appointment.entity.ChatMessage;
 import com.eric.appointment.security.UserDetail;
 import com.eric.appointment.service.AppointmentService;
-import com.eric.appointment.service.ExchangeService;
 import com.eric.appointment.service.UserService;
 import com.eric.appointment.service.WorkService;
 
@@ -30,7 +29,6 @@ public class AppointmentController {
     
     private final UserService userService;
     private final AppointmentService appointmentService;
-    private final ExchangeService exchangeService;
     private final WorkService workService;
 
     @GetMapping("/all")
@@ -53,10 +51,8 @@ public class AppointmentController {
         model.addAttribute("chatMessage", new ChatMessage());
         boolean allowedToRequestRejection = appointmentService.isCustomerAllowedToRejectAppointment(appointment.getCustomer().getId(), id);
         boolean allowedToAcceptRejection = appointmentService.isProviderAllowedToAcceptRejection(appointment.getProvider().getId(), id);
-        boolean allowedToExchange = exchangeService.checkIfAllowedForExchange(id);
         model.addAttribute("allowedToRequestRejection", allowedToRequestRejection);
         model.addAttribute("allowedToAcceptRejection", allowedToAcceptRejection);
-        model.addAttribute("allowedToExchange", allowedToExchange);
         if (allowedToRequestRejection) {
             model.addAttribute("remainingTime", FormatDuration(Duration.between(LocalDateTime.now(), appointment.getEnd().plusDays(1))));
         }

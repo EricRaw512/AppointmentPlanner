@@ -214,7 +214,7 @@ public class AppointmentService {
         if (appointment == null) {
             throw new org.springframework.security.access.AccessDeniedException("Unauthorized");
         }
-
+        
         appointment.setStatus(AppointmentStatus.CANCELED);
         User canceler = userService.getUserById(userId);
         appointment.setCanceler(canceler);

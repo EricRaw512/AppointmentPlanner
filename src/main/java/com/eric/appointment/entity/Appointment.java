@@ -8,8 +8,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.eric.appointment.entity.user.Customer;
 import com.eric.appointment.entity.user.Provider;
 import com.eric.appointment.entity.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -17,7 +17,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -44,26 +43,28 @@ public class Appointment extends BaseEntity implements Comparable<Appointment>{
     @Enumerated(EnumType.STRING)
     private AppointmentStatus status;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_canceler")
+    @JsonIgnore
     private User canceler;
 
     @ManyToOne
     @JoinColumn(name = "id_customer")
+    @JsonIgnore
     private Customer customer;
 
     @ManyToOne
     @JoinColumn(name = "id_provider")
+    @JsonIgnore
     private Provider provider;
 
     @ManyToOne
     @JoinColumn(name = "id_work")
+    @JsonIgnore
     private Work work;
 
-    @OneToOne(mappedBy = "requested", cascade = {CascadeType.ALL})
-    private ExchangeRequest exchangeRequest;
-
     @OneToMany(mappedBy = "appointment")
+    @JsonIgnore
     private List<ChatMessage> chatMessages;
 
     @Override
