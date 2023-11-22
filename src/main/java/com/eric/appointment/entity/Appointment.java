@@ -26,6 +26,9 @@ import lombok.EqualsAndHashCode;
 @Table(name = "appointments")
 @Entity
 public class Appointment extends BaseEntity implements Comparable<Appointment>{
+
+    @Column(name = "title")
+    private String title;
     
     @Column(name = "start")
     @DateTimeFormat(pattern = "dd-MM-yyyy'T'HH:mm")

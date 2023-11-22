@@ -191,6 +191,7 @@ public class AppointmentService {
         appointment.setCustomer(userService.getCustomerById(customerId));
         appointment.setProvider(userService.getProviderById(providerId));
         Work work = workService.getWorkById(workId);
+        appointment.setTitle(work.getName());
         appointment.setWork(work);
         appointment.setStart(start);
         appointment.setEnd(start.plusMinutes(work.getDuration()));
