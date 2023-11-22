@@ -59,6 +59,7 @@ public class AppointmentController {
         String cancelNotAllowedReason = appointmentService.getCancelNotAllowedReason(appointment.getCustomer().getId(), id);
         model.addAttribute("allowedToCancel", cancelNotAllowedReason == null);
         model.addAttribute("cancelNotAllowedReason", cancelNotAllowedReason);
+        model.addAttribute("userId", userDetail.getId());
         return "appointments/appointmentDetail";
     }
 
