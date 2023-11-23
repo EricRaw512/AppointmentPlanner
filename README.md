@@ -31,8 +31,7 @@ The app will start running at <http://localhost:8080>
 
 **5. Close the app and run the sql**
 
-- After that run MySQL script to create tables `src/main/resources/appointments.sql`
-To create admin account
+- After that run MySQL script to create admin account `src/main/resources/appointments.sql`
 
 **6. Login to admin account**
 
