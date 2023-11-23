@@ -37,8 +37,6 @@ public class AjaxController {
     @GetMapping("/users/{userId}/appointments")
     public List<Appointment> getAppointments(@PathVariable("userId") int userId, @AuthenticationPrincipal UserDetail userDetail) {
         if (userDetail.hasRole("CUSTOMER")) {
-            List<Appointment> appointmentByCustomerId = appointmentService.getAppointmentByCustomerId(userId);
-            System.out.println(appointmentByCustomerId);
             return appointmentService.getAppointmentByCustomerId(userId);
         } else if (userDetail.hasRole("PROVIDER")) {
             return appointmentService.getAppointmentByProviderId(userId);
