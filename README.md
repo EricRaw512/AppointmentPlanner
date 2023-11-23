@@ -4,7 +4,7 @@
 
 ## Steps to Setup
 
-**1. Clone the application*
+**1. Clone the application**
 
 ```bash
 git clone https://github.com/EricRaw512/AppointmentPlanner.git
@@ -19,7 +19,7 @@ create database appointment_planner
 **3. Configure enviroment variables**
 
 + open `src/main/resources/application.properties`
-+ set env variables for JDBC `dbURL`, `dbUsername`, `dbPassword`
++ set environment variables for JDBC `dbURL`, `dbUsername`, `dbPassword`
 
 **4. Run the app using maven**
 
@@ -27,11 +27,12 @@ create database appointment_planner
 mvn spring-boot:run
 ```
 
+The app will start running at <http://localhost:8080>
+
 **5. Close the app and run the sql**
 
 - After that run MySQL script to create tables `src/main/resources/appointments.sql`
-
-The app will start running at <http://localhost:8080>
+To create admin account
 
 **6. Login to admin account**
 
