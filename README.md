@@ -91,11 +91,16 @@ This function works as follow:
 
 **3. Appointment rejection**
 
-After appointment status is changed to finished system automatically sends email to customer with information that appointment is finished. In case that the appointment didn't take place there is also a link attached to that email that allows customer to reject that the appointment didn't take place. That link is valid for 24h after appointment finished time. If user will no click that link then appointment status will be automatically chaned to confirmed after 24h and invoiced at the 1st day of next month. If user will click that link an email is send to provider that his customer requested rejection. If provied will accept that rejection then appointment status will be changed to rejection accepted and appointment will be not invoiced.
+In case the appointment didn't take place, an alternative method is provided for the customer to reject that the appointment occurred. This can be done within the application interface.
+
+-The rejection option is available for 24 hours after the scheduled end time of the appointment.
+-If the customer doesn't indicate the rejection within this time frame, the appointment status will automatically change to confirmed after 24 hours. Subsequently, it will be invoiced on the 1st day of the next month.
+-If the customer chooses to reject the appointment within the given period, the system will automatically notify the provider within the application interface. The provider can then review and accept or reject the customer's rejection request.
+-If the provider accepts the rejection, the appointment status will be changed to rejection accepted, and the appointment will not be invoiced.
 
 **4. Apppointment cancellation**
 
-Every appointment can be canceled by customer or provider. Customer is allowed to cancel 1 appointment in a month no less than 24h before appointment start date. Provider is allowed to cancel his appointments without any limit as long as the appointment status is `scheduled`. 
+Every appointment can be canceled by customer if allowed or provider. Customer is allowed to cancel 2 appointment in a month no less than 24h before appointment start date. Provider is allowed to cancel his appointments without any limit as long as the appointment status is `scheduled`. 
 
 ## Built With
 
