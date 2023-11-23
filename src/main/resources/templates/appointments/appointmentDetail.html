@@ -115,7 +115,7 @@
                           style="border-top: 4px solid #ffa900;">
                           <h5 class="mb-0">Chat messages</h5>
                         </div>
-                        <div class="card-body" data-mdb-perfect-scrollbar="true" style="position: relative; height: 400px">
+                        <div id="perfectScrollbar" class="card-body" style="position: relative; height: 400px">
                             <div th:each="chatMessage : ${appointment.chatMessages}">
                                 <div class="d-flex justify-content-between">
                                     <p class="mb-1" th:classappend="${userId == chatMessage.sender.id} ? 'small text-muted' : ''" th:text="${chatMessage.sender.firstName + ' ' + chatMessage.sender.lastName}">Luke Stamp</p>
