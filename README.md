@@ -1,6 +1,6 @@
 # AppointmentPlanner
 
->This is a Spring Boot Web Application to manage and schedule appointments between providers and customers. It has many features such as appointments cancelation, providers individual working plans with breaks etc.
+>This is a Spring Boot Web Application to manage and schedule appointments between providers and customers. It has many features such as appointments cancellation, providers individual working plans with breaks etc.
 
 ![alt text](https://github.com/EricRaw512/image/blob/main/home.png?raw=true)
 
